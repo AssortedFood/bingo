@@ -14,7 +14,7 @@ const TeamBox = styled(Box)(({ teamColor, isActive }) => ({
   width: '20px',
   height: '20px',
   margin: '0 5px',
-  backgroundColor: isActive ? teamColor : '#f0f0f0',
+  backgroundColor: isActive ? teamColor : '#E2DBC8',
   border: `1px solid ${teamColor}`,
 }));
 
