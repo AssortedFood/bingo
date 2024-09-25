@@ -50,9 +50,9 @@ const BingoBoard = () => {
   const tileText = useMemo(() => [
     "Quest gauntlet", "Selfie at the map edge", "Fire cape", "Barrows unique", "500k FM XP in one session", "100x GOTR pulls",
     "Venator shard", "Zulrah unique", "Elegant piece", "Crystal grail", "Abyssal whip", "Boss head",
-    "250x Brimhaven vouchers", "Perilous moons unique", "Zenyte shard", "Enhanced crystal teleport seed", "Dragon pickaxe", "Evil chicken piece", "5m XP in any non-combat", "10x clue uniques",
+    "250x Brimhaven vouchers", "Perilous moons unique", "Zenyte shard", "Enhanced crystal teleport seed", "Dragon pickaxe", "Evil chicken piece", "5m XP in any non-combat", "10x Clue uniques",
     "Elder chaos piece", "Nex unique", "Blood shard", "Wilderness boss ring", "Zalcano unique", "3x Any CG seed", "Boss jar",
-    "Uncut onyx", "Any pet", "3x unique slayer boss drops", "Lord of the dagannoth rings", "DT2 Ring or virtus piece", "Tome of fire/water", "Fang kit",
+    "Uncut onyx", "Any pet", "3x Slayer boss uniques", "Lord of the dagannoth rings", "DT2 ring or virtus piece", "Tome of fire/water", "Fang kit",
     "5x Purple chest", "Mega rare"
   ], []);
 
