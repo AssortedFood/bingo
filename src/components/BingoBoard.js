@@ -25,7 +25,7 @@ const BingoTile = ({ image, text, teamSelection, points }) => (
       <Typography variant="body1" align="center" color="textPrimary">{text}</Typography>
       <Typography variant="body2" align="center" color="textSecondary">Points: {points}</Typography>
       <Box display="flex" justifyContent="center" mt={1}>
-        {['#f44336', '#4caf50', '#2196f3'].map((color, index) => (
+        {['#D00000', '#FFBA08', '#3F88C5', '#7FB069', '#8FC0A9'].map((color, index) => (
           <TeamBox
             key={index}
             teamColor={color}
@@ -39,12 +39,13 @@ const BingoTile = ({ image, text, teamSelection, points }) => (
 
 const BingoBoard = () => {
   const tilePoints = useMemo(() => [
-    1, 1, 1, 1, 1, 5,
-    5, 5, 5, 5, 5, 5,
-    5, 5, 5, 5, 5, 10,
-    10, 10, 10, 10, 10, 10,
-    15, 15, 15, 15, 20, 20,
-    20, 20, 25, 30, 35, 50
+    1, 1, 1, 1, 1, 5, 5,
+    5, 5, 5, 5, 5, 5, 5,
+    5, 5, 5, 5, 5, 10, 10,
+    10, 10, 10, 10, 10, 10, 10,
+    15, 15, 15, 15, 20, 20, 20,
+    20, 20, 25, 30, 35, 50, 50,
+    20, 20, 25, 30, 35, 50, 50
   ], []);
 
   const tileText = useMemo(() => [
@@ -53,31 +54,33 @@ const BingoBoard = () => {
     "250x Brimhaven vouchers", "Perilous moons unique", "Zenyte shard", "Enhanced crystal teleport seed", "Dragon pickaxe", "Evil chicken piece", "5m XP in any non-combat", "10x Clue uniques",
     "Elder chaos piece", "Nex unique", "Blood shard", "Wilderness boss ring", "Zalcano unique", "3x Any CG seed", "Boss jar",
     "Uncut onyx", "Any pet", "3x Slayer boss uniques", "Lord of the dagannoth rings", "DT2 ring or virtus piece", "Tome of fire/water", "Fang kit",
-    "5x Purple chest", "Mega rare"
+    "5x Purple chest", "Mega rare", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test", "test"
   ], []);
 
-  const [teamPoints, setTeamPoints] = useState([0, 0, 0]);
+  const [teamPoints, setTeamPoints] = useState([0, 0, 0, 0, 0]);
 
   useEffect(() => {
-    const totalPoints = [0, 0, 0];
+    const totalPoints = [0, 0, 0, 0, 0];
     teamSelectionsMatrix.forEach((row, rowIndex) => {
       row.forEach((selection, colIndex) => {
-        const points = tilePoints[rowIndex * 6 + colIndex];
-        const [team1, team2, team3] = selection.split('').map(Number);
+        const points = tilePoints[rowIndex * 7 + colIndex];
+        const [team1, team2, team3, team4, team5] = selection.split('').map(Number);
         totalPoints[0] += team1 * points;
         totalPoints[1] += team2 * points;
         totalPoints[2] += team3 * points;
+        totalPoints[3] += team4 * points;
+        totalPoints[4] += team5 * points;
       });
     });
     setTeamPoints(totalPoints);
   }, [tilePoints]); // Remove teamSelectionsMatrix from the dependency array
 
-  const tiles = Array.from({ length: 36 }, (_, index) => ({
+  const tiles = Array.from({ length: 49 }, (_, index) => ({
     id: index,
     image: `/images/tile_${index + 1}.jpg`,
     text: tileText[index],
     points: tilePoints[index],
-    teamSelection: teamSelectionsMatrix[Math.floor(index / 6)][index % 6]
+    teamSelection: teamSelectionsMatrix[Math.floor(index / 7)][index % 7]
   }));
 
   return (
@@ -93,17 +96,25 @@ const BingoBoard = () => {
           borderRadius: 2 
         }}>
         <Box display="flex" justifyContent="space-around" alignItems="center" sx={{ gap: 2 }}>
-          <Box sx={{ backgroundColor: '#f44336', p: 2, borderRadius: 2 }}>
-            <Typography variant="h6" color="textPrimary">Akun Ankat</Typography>
+          <Box sx={{ backgroundColor: '#D00000', p: 2, borderRadius: 2 }}>
+            <Typography variant="h6" color="textPrimary">Team 1</Typography>
             <Typography variant="body1" color="textPrimary">Points: {teamPoints[0]}</Typography>
           </Box>
-          <Box sx={{ backgroundColor: '#4caf50', p: 2, borderRadius: 2 }}>
-            <Typography variant="h6" color="textPrimary">Akustin Akustiikkapojat</Typography>
+          <Box sx={{ backgroundColor: '#FFBA08', p: 2, borderRadius: 2 }}>
+            <Typography variant="h6" color="textPrimary">Team 2</Typography>
             <Typography variant="body1" color="textPrimary">Points: {teamPoints[1]}</Typography>
           </Box>
-          <Box sx={{ backgroundColor: '#2196f3', p: 2, borderRadius: 2 }}>
-            <Typography variant="h6" color="textPrimary">Juipin Jupiterit</Typography>
+          <Box sx={{ backgroundColor: '#3F88C5', p: 2, borderRadius: 2 }}>
+            <Typography variant="h6" color="textPrimary">Team 3</Typography>
             <Typography variant="body1" color="textPrimary">Points: {teamPoints[2]}</Typography>
+          </Box>
+          <Box sx={{ backgroundColor: '#7FB069', p: 2, borderRadius: 2 }}>
+            <Typography variant="h6" color="textPrimary">Team 4</Typography>
+            <Typography variant="body1" color="textPrimary">Points: {teamPoints[3]}</Typography>
+          </Box>
+          <Box sx={{ backgroundColor: '#8FC0A9', p: 2, borderRadius: 2 }}>
+            <Typography variant="h6" color="textPrimary">Team 5</Typography>
+            <Typography variant="body1" color="textPrimary">Points: {teamPoints[4]}</Typography>
           </Box>
         </Box>
       </Paper>
@@ -111,7 +122,7 @@ const BingoBoard = () => {
 
       <Grid container spacing={2}>
         {tiles.map((tile) => (
-          <Grid item xs={2} key={tile.id}>
+          <Grid item xs={1.7} key={tile.id}>
             <BingoTile
               image={tile.image}
               text={tile.text}
