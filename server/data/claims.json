@@ -1,0 +1,37 @@
+[
+  {
+    "id": 2,
+    "description": "Selfie at the map edge",
+    "image": "/images/tile_2.jpg",
+    "points": 1,
+    "claimedBy": []
+  },
+  {
+    "id": 3,
+    "description": "Fire cape",
+    "image": "/images/tile_3.jpg",
+    "points": 1,
+    "claimedBy": []
+  },
+  {
+    "id": 4,
+    "description": "Barrows unique",
+    "image": "/images/tile_4.jpg",
+    "points": 1,
+    "claimedBy": []
+  },
+  {
+    "id": 1,
+    "description": "Quest gauntlet",
+    "image": "/images/tile_1.jpg",
+    "points": 1,
+    "claimedBy": []
+  },
+  {
+    "id": 5,
+    "description": "500k FM XP in one session",
+    "image": "/images/tile_5.jpg",
+    "points": 1,
+    "claimedBy": []
+  }
+]
