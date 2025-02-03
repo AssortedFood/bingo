@@ -47,7 +47,7 @@ const BingoBoard = () => {
   const readOnly = hostname === 'bingo.synox.is';
   const API_URL = hostname.includes('localhost')
     ? 'http://localhost:5000/api/claims'
-    : 'https://score.synox.is/api/claims';
+    : 'https://bingo.synox.is/api/claims';
 
   const [tiles, setTiles] = useState([]);
   const [teamPoints, setTeamPoints] = useState(Array(teams.length).fill(0));
