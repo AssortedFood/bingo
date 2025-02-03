@@ -1,5 +1,42 @@
-// src/data/tiles.js
-
-const tiles = [
-    //
-]
+// client/data/tiles.js
+const rawTiles = [
+    { id: 1, text: "Quest gauntlet", points: 1, image: "/images/tile_1.jpg" },
+    { id: 2, text: "Selfie at map edge", points: 1, image: "/images/tile_2.jpg" },
+    { id: 3, text: "Fire cape", points: 1, image: "/images/tile_3.jpg" },
+    { id: 4, text: "Barrows unique", points: 1, image: "/images/tile_4.jpg" },
+    { id: 5, text: "500k FM XP in one session", points: 1, image: "/images/tile_5.jpg" },
+    { id: 6, text: "100x GOTR pulls", points: 5, image: "/images/tile_6.jpg" },
+    { id: 7, text: "Venator shard", points: 5, image: "/images/tile_7.jpg" },
+    { id: 8, text: "Zulrah unique", points: 5, image: "/images/tile_8.jpg" },
+    { id: 9, text: "Elegant piece", points: 5, image: "/images/tile_9.jpg" },
+    { id: 10, text: "Crystal grail", points: 5, image: "/images/tile_10.jpg" },
+    { id: 11, text: "Abyssal whip", points: 5, image: "/images/tile_11.jpg" },
+    { id: 12, text: "Boss head", points: 5, image: "/images/tile_12.jpg" },
+    { id: 13, text: "250x Brimhaven vouchers", points: 5, image: "/images/tile_13.jpg" },
+    { id: 14, text: "Perilous moons unique", points: 5, image: "/images/tile_14.jpg" },
+    { id: 15, text: "Zenyte shard", points: 5, image: "/images/tile_15.jpg" },
+    { id: 16, text: "Enhanced crystal teleport seed", points: 5, image: "/images/tile_16.jpg" },
+    { id: 17, text: "Dragon pickaxe", points: 5, image: "/images/tile_17.jpg" },
+    { id: 18, text: "Evil chicken piece", points: 10, image: "/images/tile_18.jpg" },
+    { id: 19, text: "5m XP in any non-combat", points: 10, image: "/images/tile_19.jpg" },
+    { id: 20, text: "10x Clue uniques", points: 10, image: "/images/tile_20.jpg" },
+    { id: 21, text: "Elder chaos piece", points: 10, image: "/images/tile_21.jpg" },
+    { id: 22, text: "Nex unique", points: 10, image: "/images/tile_22.jpg" },
+    { id: 23, text: "Blood shard", points: 10, image: "/images/tile_23.jpg" },
+    { id: 24, text: "Wilderness boss ring", points: 10, image: "/images/tile_24.jpg" },
+    { id: 25, text: "Zalcano unique", points: 15, image: "/images/tile_25.jpg" },
+    { id: 26, text: "3x Any CG seed", points: 15, image: "/images/tile_26.jpg" },
+    { id: 27, text: "Boss jar", points: 15, image: "/images/tile_27.jpg" },
+    { id: 28, text: "Uncut onyx", points: 15, image: "/images/tile_28.jpg" },
+    { id: 29, text: "Any pet", points: 20, image: "/images/tile_29.jpg" },
+    { id: 30, text: "3x Slayer boss uniques", points: 20, image: "/images/tile_30.jpg" },
+    { id: 31, text: "Lord of the dagannoth rings", points: 20, image: "/images/tile_31.jpg" },
+    { id: 32, text: "DT2 ring or virtus piece", points: 20, image: "/images/tile_32.jpg" },
+    { id: 33, text: "Tome of fire/water", points: 25, image: "/images/tile_33.jpg" },
+    { id: 34, text: "Fang kit", points: 30, image: "/images/tile_34.jpg" },
+    { id: 35, text: "5x Purple chest", points: 35, image: "/images/tile_35.jpg" },
+    { id: 36, text: "Mega rare", points: 50, image: "/images/tile_36.jpg" }
+  ];
+  
+  export default rawTiles;
+  
