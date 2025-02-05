@@ -1,10 +1,10 @@
 // src/data/teams.js
 
 const teams = [
-    { id: 1, name: "Team Red", color: "#D00000" },
-    { id: 2, name: "Team Yellow", color: "#FFBA08" },
-    { id: 3, name: "Team Blue", color: "#3F88C5" },
-    { id: 4, name: "Team Green", color: "#7FB069" }
+    { id: 1, name: "Juipin Jupiterit", color: "#D00000" },
+    { id: 2, name: "Ippin Ipanat", color: "#FFBA08" },
+    { id: 3, name: "Metalin Miehet", color: "#3F88C5" },
+    { id: 4, name: "Ersun Elintarvikkeet", color: "#7FB069" }
   ];
   
   export default teams;
