@@ -1,5 +1,4 @@
 // client/src/models/BingoTile.js
-
 class BingoTile {
   constructor(id, description, image, points, claimedBy = []) {
     this.id = id;

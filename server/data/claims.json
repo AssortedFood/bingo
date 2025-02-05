@@ -1,34 +1,9 @@
 [
   {
-    "id": 1,
-    "image": "/images/tile_1.jpg",
-    "points": 1,
-    "claimedBy": []
-  },
-  {
-    "id": 2,
-    "image": "/images/tile_2.jpg",
-    "points": 1,
-    "claimedBy": []
-  },
-  {
-    "id": 3,
-    "image": "/images/tile_3.jpg",
-    "points": 1,
-    "claimedBy": []
-  },
-  {
-    "id": 21,
-    "description": "Elder chaos piece",
-    "image": "/images/tile_21.jpg",
-    "points": 10,
-    "claimedBy": []
-  },
-  {
-    "id": 20,
-    "description": "10x Clue uniques",
-    "image": "/images/tile_20.jpg",
-    "points": 10,
+    "id": 7,
+    "description": "Strange lockpick",
+    "image": "/images/7.png",
+    "points": 5,
     "claimedBy": []
   }
 ]

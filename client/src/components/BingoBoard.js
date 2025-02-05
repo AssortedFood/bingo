@@ -23,10 +23,14 @@ const TeamBox = styled(Box)(({ teamColor, isActive, readOnly }) => ({
 
 const BingoTileComponent = ({ tile, readOnly, onToggleClaim }) => (
   <GridItem>
-    <CardMedia component="img" height="100" image={tile.image} alt={tile.text} />
+    <CardMedia component="img" height="100" image={tile.image} alt={tile.description} />
     <CardContent>
-      <Typography variant="body1" align="center">{tile.text}</Typography>
-      <Typography variant="body2" align="center">Points: {tile.points}</Typography>
+      <Typography variant="body1" align="center">
+        {tile.description}
+      </Typography>
+      <Typography variant="body2" align="center">
+        Points: {tile.points}
+      </Typography>
       <Box display="flex" justifyContent="center" mt={1}>
         {teams.map(team => (
           <TeamBox
@@ -60,10 +64,10 @@ const BingoBoard = () => {
       const tileClaims = claimsData.find(claim => claim.id === data.id);
       return new BingoTile(
         data.id,
-        data.text,
+        data.text, // Pass the raw text; BingoTile constructor will set it as description.
         data.image,
         data.points,
-        tileClaims ? tileClaims.claimedBy : data.claimedBy
+        tileClaims ? tileClaims.claimedBy : [] // Server claims data is the source of truth.
       );
     });
     setTiles(updatedTiles);
@@ -75,7 +79,7 @@ const BingoBoard = () => {
     setTiles(prevTiles =>
       prevTiles.map(tile => {
         if (tile.id === tileId) {
-          const newTile = new BingoTile(tile.id, tile.text, tile.image, tile.points, [...tile.claimedBy]);
+          const newTile = new BingoTile(tile.id, tile.description, tile.image, tile.points, [...tile.claimedBy]);
           newTile.toggleTeamClaim(teamId);
           if (JSON.stringify(tile.claimedBy) !== JSON.stringify(newTile.claimedBy)) {
             saveClaim(newTile);
