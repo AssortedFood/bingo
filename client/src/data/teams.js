@@ -5,7 +5,7 @@ const teams = [
     { id: 2, name: "Ipin Ipanat", color: "#FFBA08" },
     { id: 3, name: "Metallin Mukulat", color: "#3F88C5" },
     { id: 4, name: "Ersun Elintarvikkeet", color: "#7FB069" },
-    { id: 4, name: "MiQun minionit", color: "#3EB489" },
+    { id: 5, name: "MiQun Minionit", color: "#3EB489" },
   ];
   
   export default teams;
