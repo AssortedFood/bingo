@@ -8,13 +8,11 @@ RUN npm run build
 
 # Build the server and bundle the client build
 FROM node:18
-WORKDIR /app
-# Install server dependencies
-COPY server/package*.json ./server/
-RUN cd server && npm install
-# Copy the entire server source code
-COPY server/ ./server/
-# Copy the built client into the appropriate location for serving static files
+WORKDIR /app/server
+# Copy the entire server folder from the project root into /app/server
+COPY ./server/ ./
+RUN npm install
+# Copy the built client into server/client/build (adjust if your server expects a different path)
 COPY --from=client-build /app/client/build ./client/build
 EXPOSE 5000
-CMD ["node", "server/server.js"]
+CMD ["node", "server.js"]
