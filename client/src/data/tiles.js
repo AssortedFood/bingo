@@ -14,7 +14,7 @@ const rawTiles = [
   },
   {
     "id": 3,
-    "text": "GWD: Every weapon (Armadyl crossbow, Zamorakian spear, Staff of the dead, and Saradomin sword)",
+    "text": "GWD: Every weapon (ACB, Z Spear, SOTD, & Sara Sword)",
     "points": 5,
     "image": "/images/3.png"
   },
