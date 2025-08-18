@@ -16,7 +16,7 @@ app.use('/api/claims', claimsRoutes(/* debug flag if needed */));
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Catch-all route to serve index.html for any non-API requests
-app.get('*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
