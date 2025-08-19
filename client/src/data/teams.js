@@ -1,10 +1,11 @@
 // src/data/teams.js
 
 const teams = [
-    { id: 1, name: "Kek han grindaajat", color: "#D00000" },
-    { id: 2, name: "MiQun Minionit", color: "#FFBA08" },
-    { id: 3, name: "Metallin Miehet/Juipin Jupiterit?", color: "#3F88C5" },
-    { id: 4, name: "???", color: "#3EB489" },
+    { id: 1, name: "Ookun Omenat Osk", color: "#D00000" },
+    { id: 2, name: "MiQun Minionit Ky", color: "#FFBA08" },
+    { id: 3, name: "Metallin Miehet Oy", color: "#3F88C5" },
+    { id: 4, name: "Uloksen Ulosotto Tmi", color: "#7FB069" },
+    { id: 5, name: "Ipin Ipanat Ab", color: "#3EB489" },
   ];
 
   export default teams;
