@@ -19,7 +19,7 @@ export default function SettingsMenu({
   const closeMenu = () => setAnchorEl(null);
 
   // centralize your interval here:
-  const REFRESH_INTERVAL = 60;
+  const REFRESH_INTERVAL = 10;
 
   return (
     <>

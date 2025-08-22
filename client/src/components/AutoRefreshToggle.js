@@ -1,5 +1,5 @@
 // src/components/AutoRefreshToggle.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   MenuItem,
   ListItemIcon,
@@ -7,53 +7,56 @@ import {
 } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 
-/**
- * Props:
- *  – onRefresh:    () => void    // fire immediately + every `interval`
- *  – staysOpen:    boolean
- *  – toggleClose:  fn
- *  – interval:     number        // seconds
- */
 export default function AutoRefreshToggle({
-  onRefresh,
+  onRefresh,    // now your App’s loadClaims()
+  interval,
   staysOpen = true,
-  toggleClose = () => {},
-  interval
+  toggleClose = () => {}
 }) {
   const [enabled, setEnabled]     = useState(false);
   const [countdown, setCountdown] = useState(interval);
 
+  // keep a ref to the latest onRefresh so that our interval
+  // callback never closes over a stale version
+  const onRefreshRef = useRef(onRefresh);
   useEffect(() => {
+    onRefreshRef.current = onRefresh;
+  }, [onRefresh]);
+
+  useEffect(() => {
+    // whenever we disable, reset the countdown
     if (!enabled) {
       setCountdown(interval);
       return;
     }
+
     // fire immediately
-    onRefresh();
-    let sec = interval;
-    setCountdown(sec);
+    onRefreshRef.current();
+
+    let remaining = interval;
+    setCountdown(remaining);
 
     const id = setInterval(() => {
-      sec -= 1;
-      if (sec <= 0) {
-        onRefresh();
-        sec = interval;
+      remaining -= 1;
+      if (remaining <= 0) {
+        onRefreshRef.current();
+        remaining = interval;
       }
-      setCountdown(sec);
+      setCountdown(remaining);
     }, 1000);
 
     return () => clearInterval(id);
-  }, [enabled, onRefresh, interval]);
+  }, [enabled, interval]);
 
   const handleClick = () => {
-    setEnabled(x => !x);
+    setEnabled(e => !e);
     if (!staysOpen) toggleClose();
   };
 
   return (
     <MenuItem onClick={handleClick}>
       <ListItemIcon>
-        <RefreshIcon fontSize="small" />
+        <RefreshIcon fontSize="small"/>
       </ListItemIcon>
       <ListItemText
         primary={
