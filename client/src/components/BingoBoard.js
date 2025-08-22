@@ -1,5 +1,5 @@
 // client/src/components/BingoBoard.js
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Box, Grid, Typography, Card, CardContent, CardMedia, Divider, Paper } from '@mui/material';
 import { styled } from '@mui/system';
 import teams from '../data/teams';
@@ -15,17 +15,19 @@ const GridItem = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.body.background,
 }));
 
-// unchanged
-const TeamBox = styled(Box)(({ theme, teamColor, isActive, readOnly }) => ({
-  width: 20,
-  height: 20,
+const TeamBox = styled(Box, {
+  shouldForwardProp: prop =>
+    prop !== 'teamColor' &&
+    prop !== 'isActive' &&
+    prop !== 'readOnly'
+})(({ theme, teamColor, isActive, readOnly }) => ({
+  width:   20,
+  height:  20,
   margin: '0 5px',
-  backgroundColor: isActive
-    ? teamColor
-    : theme.palette.body.main,
+  backgroundColor: isActive ? teamColor : theme.palette.body.main,
   border: `1px solid ${teamColor}`,
   cursor: readOnly ? 'default' : 'pointer',
-  opacity: readOnly ? 0.6 : 1,
+  opacity: readOnly ? 0.6 : 1
 }));
 
 // 2) Split out top vs bottom so bottom always sits at the foot
