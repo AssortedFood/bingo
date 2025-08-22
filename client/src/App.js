@@ -100,6 +100,9 @@ function App() {
     () =>
       createTheme({
         palette: { ...lightPalette, mode: 'light' },
+        typography: {
+          fontFamily: `"Runescape", ${lightPalette.text.primary /* fallback */}`,
+        },
       }),
     []
   );
@@ -111,6 +114,9 @@ function App() {
           ...lightPalette,      // start with your light defaults
           ...darkOverrides,     // override only the bits you supplied
           mode: 'dark',
+        },
+        typography: {
+          fontFamily: `"Runescape", ${darkOverrides.text?.primary || '#fff'}`,
         },
       }),
     []
