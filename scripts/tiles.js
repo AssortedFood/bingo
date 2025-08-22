@@ -1,325 +1,325 @@
 const rawTiles = [
   {
     "id": 1,
-    "text": "Bryophyta essence",
+    "text": "Bryophyta's essence",
     "points": 2,
     "image": "/images/1.png"
   },
   {
     "id": 2,
-    "text": "Corp: Blessed spiritshield from scrach",
+    "text": "Corp: Blessed spirit shield (Spirit shield ja Holy elixir)",
     "points": 5,
     "image": "/images/2.png"
   },
   {
     "id": 3,
-    "text": "GWD: Every weapon (Armadyl crossbow, Zamorakian spear, Staff of the dead, and Saradomin sword)",
+    "text": "GWD: Jokainen ase (Acb, Zs, SotD ja Ss)",
     "points": 4,
     "image": "/images/3.png"
   },
   {
     "id": 4,
-    "text": "GWD: Every hilt (Arma, zammy, Sara and bandos hilt)",
+    "text": "GWD: Jokainen hiltti (Armadyl, Zamorak, Saradomin ja Bandos)",
     "points": 4,
     "image": "/images/4.png"
   },
   {
     "id": 5,
-    "text": "LDK: Lords of the rings (not the same trip)",
+    "text": "Dagannoth kings: Jokainen ringi (ei tarvii vetää yhessä reissussa)",
     "points": 3,
     "image": "/images/5.png"
   },
   {
     "id": 6,
-    "text": "Yama: Any 3x oathplate",
+    "text": "Yama: 3x Oathplate armor",
     "points": 4,
     "image": "/images/6.png"
   },
   {
     "id": 7,
-    "text": "Yama: Horn",
+    "text": "Yama: Souflame horn",
     "points": 2,
     "image": "/images/7.png"
   },
   {
     "id": 8,
-    "text": "Doom Boots",
+    "text": "Doom of Mokhaiotl: Avernic treads",
     "points": 3,
     "image": "/images/8.png"
   },
   {
     "id": 9,
-    "text": "CG: Enhanced weapon seed (or 6 armour seeds or pet)",
+    "text": "CG: Enhanced crystal weapon seed (tai 6 crystal armor seedii tai petti)",
     "points": 5,
     "image": "/images/9.png"
   },
   {
     "id": 10,
-    "text": "Dragon axe, mud battlestaff and seercull",
+    "text": "Dragon axe, Mud battlestaff ja Seercull",
     "points": 1,
     "image": "/images/10.png"
   },
   {
     "id": 11,
-    "text": "Moons of Peril (any full set)",
+    "text": "Moons of Peril: 1x täysi setti (armorit ja ase)",
     "points": 1,
     "image": "/images/11.png"
   },
   {
     "id": 12,
-    "text": "Nex: Any 2 uniques",
+    "text": "Nex: 2x uniikki",
     "points": 4,
     "image": "/images/12.png"
   },
   {
     "id": 13,
-    "text": "Nightmare: Any orb",
+    "text": "Nightmare: 1x orbi",
     "points": 5,
     "image": "/images/13.png"
   },
   {
     "id": 14,
-    "text": "Titans: Full staff",
+    "text": "Royal Titans: Twinflame staff (molemmat osat)",
     "points": 2,
     "image": "/images/14.png"
   },
   {
     "id": 15,
-    "text": "Titans: Bolth prayers",
+    "text": "Royal Titans: Molemmat prayer scrollit",
     "points": 2,
     "image": "/images/15.png"
   },
   {
     "id": 16,
-    "text": "Full voidwaker",
+    "text": "Voidwaker (kaikki osat)",
     "points": 4,
     "image": "/images/16.png"
   },
   {
     "id": 17,
-    "text": "Vorkath: Any unique, not head",
+    "text": "Vorkath: 1x uniikki (ei pää)",
     "points": 3,
     "image": "/images/17.png"
   },
   {
     "id": 18,
-    "text": "Zulrah: Any 3x uniques",
+    "text": "Zulrah: 3x uniikki (ei mutagen)",
     "points": 3,
     "image": "/images/18.png"
   },
   {
     "id": 19,
-    "text": "Zulrah: any mutagen",
+    "text": "Zulrah: Mutagen",
     "points": 5,
     "image": "/images/19.png"
   },
   {
     "id": 20,
-    "text": "Winterdot (Tome of fire)",
+    "text": "Wintertodt: Tome of Fire",
     "points": 2,
     "image": "/images/20.png"
   },
   {
     "id": 21,
-    "text": "Temperoos (Tome of water)",
+    "text": "Tempoross: Tome of Water",
     "points": 2,
     "image": "/images/21.png"
   },
   {
     "id": 22,
-    "text": "Huecotl (Tome of earth)",
+    "text": "Hueycoatl: Tome of Earth",
     "points": 2,
     "image": "/images/22.png"
   },
   {
     "id": 23,
-    "text": "Guardians of the rift, Any dye",
+    "text": "GOTR: 1x dye",
     "points": 3,
     "image": "/images/23.png"
   },
   {
     "id": 24,
-    "text": "Barbarian Assault 10x high roll or the points or 20 upgrade",
+    "text": "Barbarian Assault: 10x High Gamblee/pisteet niitä varten tai 20x rooli lvl up upgradee",
     "points": 4,
     "image": "/images/24.png"
   },
   {
     "id": 25,
-    "text": "5x blood shards",
+    "text": "Vyre: 5x Blood Shard",
     "points": 2,
     "image": "/images/25.png"
   },
   {
     "id": 26,
-    "text": "3x zenyte shard",
+    "text": "Demonic gorillas: 3x Zenyte Shard",
     "points": 3,
     "image": "/images/26.png"
   },
   {
     "id": 27,
-    "text": "Volcanic Mine (broken pickaxe)",
+    "text": "Volcanic Mine : Broken dragon pickaxe",
     "points": 1,
     "image": "/images/27.png"
   },
   {
     "id": 28,
-    "text": "Ring of endurance",
+    "text": "Hallowed Sepulchre: Ring of endurance",
     "points": 3,
     "image": "/images/28.png"
   },
   {
     "id": 29,
-    "text": "Aerial fishing, Golden tench",
+    "text": "Aerial Fishing: Golden tench",
     "points": 2,
     "image": "/images/29.png"
   },
   {
     "id": 30,
-    "text": "Champion scroll (Hotgoblin)",
+    "text": "1x Champion Scroll",
     "points": 3,
     "image": "/images/30.png"
   },
   {
     "id": 31,
-    "text": "Elder chaos robe (top)",
+    "text": "1x Elder Chaos robe osa",
     "points": 2,
     "image": "/images/31.png"
   },
   {
     "id": 32,
-    "text": "Monkey tail (Pvm or hunter)",
+    "text": "Monkey Tail (PvM tai Hunter)",
     "points": 3,
     "image": "/images/32.png"
   },
   {
     "id": 33,
-    "text": "Any weapon from rewenants",
+    "text": "1x Revenant ase",
     "points": 3,
     "image": "/images/33.png"
   },
   {
     "id": 34,
-    "text": "Fishing (Big bass, shark, and big swordfish)",
+    "text": "Fishing: Big bass, Big shark tai Big swordfish",
     "points": 1,
     "image": "/images/34.png"
   },
   {
     "id": 35,
-    "text": "Wilderness rings (any 2x different rings)",
+    "text": "2 ERILAISTA Wilderness ringiä (Ring of the gods, Treasonous ring ja Tyrannical ring)",
     "points": 3,
     "image": "/images/35.png"
   },
   {
     "id": 36,
-    "text": "Jar of eyes and jar of souls",
+    "text": "Jar of eyes ja Jar of souls",
     "points": 4,
     "image": "/images/36.png"
   },
   {
     "id": 37,
-    "text": "DT2, any 2 different vestiges",
+    "text": "DT2: 2 ERILAISTA vestigeä (Ultor, Venator, Bellator ja Magus)",
     "points": 4,
     "image": "/images/37.png"
   },
   {
     "id": 38,
-    "text": "DT2, 3 virtus drops total",
+    "text": "DT2: 3x Virtus osa",
     "points": 5,
     "image": "/images/38.png"
   },
   {
     "id": 39,
-    "text": "Colosseum: Any 3x uniques",
+    "text": "Colosseum: 3x uniikki",
     "points": 5,
     "image": "/images/39.png"
   },
   {
     "id": 40,
-    "text": "Bandos boots",
+    "text": "Bandos Boots",
     "points": 3,
     "image": "/images/40.png"
   },
   {
     "id": 41,
-    "text": "Armadyl helmet",
+    "text": "Armadyl Helmet",
     "points": 3,
     "image": "/images/41.png"
   },
   {
     "id": 42,
-    "text": "Grotesque guardians any 3x unique",
+    "text": "Grotesque Guardians: 3x uniikki",
     "points": 3,
     "image": "/images/42.png"
   },
   {
     "id": 43,
-    "text": "Hueycoatl, wand",
+    "text": "Hueycoatl: Dragon hunter wand",
     "points": 3,
     "image": "/images/43.png"
   },
   {
     "id": 44,
-    "text": "Any Visage",
+    "text": "1x visage (Wyvern, Draconic tai Skeletal)",
     "points": 4,
     "image": "/images/44.png"
   },
   {
     "id": 45,
-    "text": "Hill Giant club",
+    "text": "Hill giant club",
     "points": 2,
     "image": "/images/45.png"
   },
   {
     "id": 46,
-    "text": "Muspah, 5x Venator shards",
+    "text": "Muspah: 5x Venator shard",
     "points": 4,
     "image": "/images/46.png"
   },
   {
     "id": 47,
-    "text": "Any pvm pet (Ei chaos ele/skotizo)",
+    "text": "Pvm pet (EI Chaos ele TAI Skotizo)",
     "points": 5,
     "image": "/images/47.png"
   },
   {
     "id": 48,
-    "text": "Any skilling pet (Miqu 200m farm dont count)",
+    "text": "Skilling pet (Miqu 200m farming ei lasketa)",
     "points": 4,
     "image": "/images/48.png"
   },
   {
     "id": 49,
-    "text": "Full odium or maladiction shield",
+    "text": "Odium TAI Malediction ward (kaikki shardit)",
     "points": 2,
     "image": "/images/49.png"
   },
   {
     "id": 50,
-    "text": "Serichnis Cudel",
+    "text": "Sarachnis cudgel",
     "points": 3,
     "image": "/images/50.png"
   },
   {
     "id": 51,
-    "text": "Temperoos (Tacklebox, barrel or harpoon)",
+    "text": "Tempoross: Tacklebox, Barrel TAI Dragon harpoon",
     "points": 2,
     "image": "/images/51.png"
   },
   {
     "id": 52,
-    "text": "Smoke battlestaff",
+    "text": "Thermonuclear smoke devil: Smoke battlestaff",
     "points": 3,
     "image": "/images/52.png"
   },
   {
     "id": 53,
-    "text": "Zalcano (Any unique)",
+    "text": "Zalcano: 1x uniikki",
     "points": 4,
     "image": "/images/53.png"
   },
   {
     "id": 54,
-    "text": "Kalphite Queen (head)",
+    "text": "Kalphite Queen head",
     "points": 3,
     "image": "/images/54.png"
   },
@@ -331,13 +331,13 @@ const rawTiles = [
   },
   {
     "id": 56,
-    "text": "Forestry (amulet, whistle, or egg)",
+    "text": "Forestry: Petal garland, Fox whistle TAI Golden egg",
     "points": 5,
     "image": "/images/56.png"
   },
   {
     "id": 57,
-    "text": "Dragon metal lump or slice (Rune/adamant dragon)",
+    "text": "Dragon metal lump TAI slice (Rune/adamant dragon)",
     "points": 3,
     "image": "/images/57.png"
   },
@@ -349,121 +349,121 @@ const rawTiles = [
   },
   {
     "id": 59,
-    "text": "All Cerberus crystals",
+    "text": "Cerberus: Kaikki crystalit (Primordial, Pegasian ja Eternal)",
     "points": 4,
     "image": "/images/59.png"
   },
   {
     "id": 60,
-    "text": "Abyssal sire, full bludgeon",
+    "text": "Abyssal Sire: Abyssal bludgeon (kaikki osat)",
     "points": 4,
     "image": "/images/60.png"
   },
   {
     "id": 61,
-    "text": "Alchemical Hydra, Claw",
+    "text": "Alchemical Hydra: Claw",
     "points": 4,
     "image": "/images/61.png"
   },
   {
     "id": 62,
-    "text": "Alchemical Hydra, hide",
+    "text": "Alchemical Hydra: Leather",
     "points": 3,
     "image": "/images/62.png"
   },
   {
     "id": 63,
-    "text": "Araxxor, fang",
+    "text": "Araxxor: Araxyte fang",
     "points": 4,
     "image": "/images/63.png"
   },
   {
     "id": 64,
-    "text": "araxxor, full hally",
+    "text": "Araxxor: Noxious halberd (kaikki osat)",
     "points": 5,
     "image": "/images/64.png"
   },
   {
     "id": 65,
-    "text": "Full barrows set (or 15 uniques)",
+    "text": "1x koko Barrows setti",
     "points": 3,
     "image": "/images/65.png"
   },
   {
     "id": 66,
-    "text": "1 point/purple",
+    "text": "1x purple raidista = 1p",
     "points": 1,
     "image": "/images/66.png"
   },
   {
     "id": 67,
-    "text": "10 purple chests",
+    "text": "10x purple raidista",
     "points": 4,
     "image": "/images/67.png"
   },
   {
     "id": 68,
-    "text": "CoX CM 3x kit",
+    "text": "CoX CM: 3x kit",
     "points": 4,
     "image": "/images/68.png"
   },
   {
     "id": 69,
-    "text": "Dust from Cox or Hmt",
+    "text": "Sanguine dust (Hmt) TAI Metamorphic dust (Cox CM)",
     "points": 4,
     "image": "/images/69.png"
   },
   {
     "id": 70,
-    "text": "ToA fang kit",
+    "text": "ToA: Fang kit",
     "points": 3,
     "image": "/images/70.png"
   },
   {
     "id": 71,
-    "text": "Any megarare (tbow, scythe, tumeken)",
+    "text": "1x megarare purple (Tbow, Scythe tai Shadow)",
     "points": 5,
     "image": "/images/71.png"
   },
   {
     "id": 72,
-    "text": "ToA 3x masori unique",
+    "text": "ToA: 3x Masori osa",
     "points": 4,
     "image": "/images/72.png"
   },
   {
     "id": 73,
-    "text": "ToA Lb & ward",
+    "text": "ToA: Lightbearer JA Elidnis' ward",
     "points": 4,
     "image": "/images/73.png"
   },
   {
     "id": 74,
-    "text": "TOB 3x justi",
+    "text": "ToB: 3x Justiciar osa",
     "points": 4,
     "image": "/images/74.png"
   },
   {
     "id": 75,
-    "text": "TOB avernic+rapier or sang",
+    "text": "ToB: Avernic hilt JA rapier/sangu staff",
     "points": 5,
     "image": "/images/75.png"
   },
   {
     "id": 76,
-    "text": "COX 3x ancestral",
+    "text": "CoX: 3x Ancestral osa",
     "points": 4,
     "image": "/images/76.png"
   },
   {
     "id": 77,
-    "text": "COX bolth prayer scrolls",
+    "text": "CoX: Molemmat prayer scrollit",
     "points": 3,
     "image": "/images/77.png"
   },
   {
     "id": 78,
-    "text": "Community event (must attendt community event)",
+    "text": "Osallistu klaanin community eventtiin (lisätiedot joukkueen kapteenilta)",
     "points": 1,
     "image": "/images/78.png"
   },
@@ -475,7 +475,7 @@ const rawTiles = [
   },
   {
     "id": 80,
-    "text": "Corp any sigil",
+    "text": "Corp: 1x Sigil (Spectral, Arcane tai Elysian)",
     "points": 5,
     "image": "/images/80.png"
   },
@@ -499,19 +499,19 @@ const rawTiles = [
   },
   {
     "id": 84,
-    "text": "Imbued hearth or eternal gem",
+    "text": "Imbued heart TAI Eternal gem",
     "points": 5,
     "image": "/images/84.png"
   },
   {
     "id": 85,
-    "text": "Pharaoh's sceptre",
+    "text": "Pyramid plunder: Pharaoh's sceptre",
     "points": 3,
     "image": "/images/85.png"
   },
   {
     "id": 86,
-    "text": "Dragonstone armour piece",
+    "text": "1x Dragonstone armor osa",
     "points": 2,
     "image": "/images/86.png"
   },
@@ -523,133 +523,133 @@ const rawTiles = [
   },
   {
     "id": 88,
-    "text": "2x burning claws",
+    "text": "Tormented demon: 2x Burning claw",
     "points": 2,
     "image": "/images/88.png"
   },
   {
     "id": 89,
-    "text": "Tormented synapse",
+    "text": "Tormented demon: Tormented synapse",
     "points": 3,
     "image": "/images/89.png"
   },
   {
     "id": 90,
-    "text": "Gnome scarf, goggles, or mint cake",
+    "text": "Gnome restaurant: Gnome goggles, scarf TAI Mint cake",
     "points": 2,
     "image": "/images/90.png"
   },
   {
     "id": 91,
-    "text": "Guardians of the Rift (lantern)",
+    "text": "GOTR: Abyssal Lantern",
     "points": 3,
     "image": "/images/91.png"
   },
   {
     "id": 92,
-    "text": "Beginner clue Any boots",
+    "text": "Beginner clue: 1x uniikki kengät",
     "points": 1,
     "image": "/images/92.png"
   },
   {
     "id": 93,
-    "text": "Beginner clue Sandwich lady bottom",
+    "text": "Beginner clue: Sandwich lady bottom",
     "points": 2,
     "image": "/images/93.png"
   },
   {
     "id": 94,
-    "text": "Easy clue Any cape",
+    "text": "Easy clue: 1x uniikki viitta",
     "points": 2,
     "image": "/images/94.png"
   },
   {
     "id": 95,
-    "text": "Easy clue: Golden hat, apron, or wooden shield G",
+    "text": "Easy clue: Golden chef hat, Golden apron TAI Wooden shield (g)",
     "points": 3,
     "image": "/images/95.png"
   },
   {
     "id": 96,
-    "text": "Easy clue Flared trousers",
+    "text": "Easy clue: Flared trousers",
     "points": 3,
     "image": "/images/96.png"
   },
   {
     "id": 97,
-    "text": "Medium Clue Any boots",
+    "text": "Medium clue: 1x uniikki kengät",
     "points": 2,
     "image": "/images/97.png"
   },
   {
     "id": 98,
-    "text": "Medium clue Strength amulet (t)",
+    "text": "Medium clue: Amulet of strength (t)",
     "points": 2,
     "image": "/images/98.png"
   },
   {
     "id": 99,
-    "text": "Medium clue Any banner",
+    "text": "Medium clue: 1x banneri",
     "points": 2,
     "image": "/images/99.png"
   },
   {
     "id": 100,
-    "text": "Hard clue Robin hood hat or Zamorak full helm",
+    "text": "Hard clue: Robin hood hat TAI Zamorak full helm",
     "points": 3,
     "image": "/images/100.png"
   },
   {
     "id": 101,
-    "text": "Hard clue Any dragon mask",
+    "text": "Hard clue: Dragon mask (Green, Blue, Red TAI Black)",
     "points": 3,
     "image": "/images/101.png"
   },
   {
     "id": 102,
-    "text": "Hard clue Amulet of glory (4)",
+    "text": "Hard clue: Amulet of glory (t4)",
     "points": 2,
     "image": "/images/102.png"
   },
   {
     "id": 103,
-    "text": "Elite clue Any rangers outfit",
+    "text": "Elite Clue: Rangers' tunic, tights TAI gloves (EI hattu tai kengät)",
     "points": 4,
     "image": "/images/103.png"
   },
   {
     "id": 104,
-    "text": "Elite clue Any dragon mask",
+    "text": "Elite clue: Dragon mask (Bronze-Rune/Lava)",
     "points": 3,
     "image": "/images/104.png"
   },
   {
     "id": 105,
-    "text": "Master clue Any ankou or mummy piece",
+    "text": "Master clue: Ankou tai Mummy setin osa",
     "points": 4,
     "image": "/images/105.png"
   },
   {
     "id": 106,
-    "text": "Master clue Any kit",
+    "text": "Master clue: 1x ornamental kit",
     "points": 3,
     "image": "/images/106.png"
   },
   {
     "id": 107,
-    "text": "Clue Any guilded or 3rd piece",
+    "text": "1x gilded(ei golden) tai 3rd age cluesta",
     "points": 4,
     "image": "/images/107.png"
   },
   {
     "id": 108,
-    "text": "Full colossal graceful recolour set",
+    "text": "Colossal graceful recolor kit",
     "points": 3,
     "image": "/images/108.png"
   },
   {
     "id": 109,
-    "text": "Evil Chicken",
+    "text": "1x Evil chicken set osa",
     "points": 2,
     "image": "/images/109.png"
   },
@@ -661,13 +661,13 @@ const rawTiles = [
   },
   {
     "id": 111,
-    "text": "Any Dusk mystic robe piece",
+    "text": "1x Dusk mystic robe osa",
     "points": 3,
     "image": "/images/111.png"
   },
   {
     "id": 112,
-    "text": "DT2 any 4x axe piece total",
+    "text": "DT2: 4x Soulreaper axe osaa (voi olla dupeja)",
     "points": 5,
     "image": "/images/112.png"
   },
@@ -679,49 +679,49 @@ const rawTiles = [
   },
   {
     "id": 114,
-    "text": "1 down cm tekton",
+    "text": "1 down CM Tekton",
     "points": 1,
     "image": "/images/114.png"
   },
   {
     "id": 115,
-    "text": "Elder maul",
+    "text": "Elder Maul",
     "points": 4,
     "image": "/images/115.png"
   },
   {
     "id": 116,
-    "text": "Doom Staff",
+    "text": "Doom of Mokhaiotl: Eye of ayak",
     "points": 2,
     "image": "/images/116.png"
   },
   {
     "id": 117,
-    "text": "Doom gloves",
+    "text": "Doom of Mokhaiotl: Mokhaiotl cloth",
     "points": 2,
     "image": "/images/117.png"
   },
   {
     "id": 118,
-    "text": "Discovalot coxissa!",
+    "text": "DISCOVALOT COXISSA!",
     "points": 5,
     "image": "/images/118.png"
   },
   {
     "id": 119,
-    "text": "Fletching knife",
+    "text": "Vale Totems: Fletching knife",
     "points": 1,
     "image": "/images/119.png"
   },
   {
     "id": 120,
-    "text": "Infinity boots",
+    "text": "MTA: Infinity boots",
     "points": 1,
     "image": "/images/120.png"
   },
   {
     "id": 121,
-    "text": "Pirate's hook",
+    "text": "Brimhaven agility: Pirate's hook",
     "points": 3,
     "image": "/images/121.png"
   },
@@ -733,27 +733,69 @@ const rawTiles = [
   },
   {
     "id": 123,
-    "text": "Colossal Blade",
+    "text": "Giant's Foundry: Colossal blade",
     "points": 1,
     "image": "/images/123.png"
   },
   {
     "id": 124,
-    "text": "Reagent pouch",
+    "text": "Mastering Mixology: Reagent pouch",
     "points": 1,
     "image": "/images/124.png"
   },
   {
     "id": 125,
-    "text": "Miqus strawhat",
+    "text": "Tithe Farm: Farmer's (Miqus) strawhat",
     "points": 1,
     "image": "/images/125.png"
   },
   {
     "id": 126,
-    "text": "Bag and Saw",
+    "text": "Mahogany Homes: Plank sack JA Amy's saw",
     "points": 1,
     "image": "/images/126.png"
+  },
+  {
+    "id": 127,
+    "text": "4 Hunters outfit osaa",
+    "points": 2,
+    "image": "/images/127.png"
+  },
+  {
+    "id": 128,
+    "text": "275 kyyneltä",
+    "points": 1,
+    "image": "/images/128.png"
+  },
+  {
+    "id": 129,
+    "text": "2 Hmt kittiä",
+    "points": 3,
+    "image": "/images/129.png"
+  },
+  {
+    "id": 130,
+    "text": "Occult",
+    "points": 1,
+    "image": "/images/130.png"
+  },
+  {
+    "id": 131,
+    "text": "Steel Ring",
+    "points": 1,
+    "image": "/images/131.png"
+  },
+  {
+    "id": 132,
+    "text": "Tentacle",
+    "points": 1,
+    "image": "/images/132.png"
+  },
+  {
+    "id": 133,
+    "text": "Trident (Full)",
+    "points": 1,
+    "image": "/images/133.png"
   }
 ];
 
