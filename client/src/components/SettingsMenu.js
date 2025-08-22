@@ -19,7 +19,7 @@ export default function SettingsMenu({
   const closeMenu = () => setAnchorEl(null);
 
   // centralize your interval here:
-  const REFRESH_INTERVAL = 10;
+  const REFRESH_INTERVAL = 60;
 
   return (
     <>
@@ -31,6 +31,7 @@ export default function SettingsMenu({
         open={Boolean(anchorEl)}
         onClose={closeMenu}
         keepMounted
+        disableScrollLock
         PaperProps={{ sx: { minWidth: 180 } }}
       >
         <DarkLightToggle
