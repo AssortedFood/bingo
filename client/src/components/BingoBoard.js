@@ -1,10 +1,23 @@
 // client/src/components/BingoBoard.js
 import { useEffect, useState, useCallback } from 'react';
-import { Box, Grid, Typography, Card, CardContent, CardMedia, Divider, Paper } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Divider,
+  Paper
+} from '@mui/material';
 import { styled } from '@mui/system';
 import teams from '../data/teams';
 import BingoTile from '../models/BingoTile';
 import tileData from '../data/tiles';
+
+// Constants for responsive tile sizing
+const MIN_TILE_WIDTH = 300; // px
+const SCALE = 0.9;          // 90% of slice width
 
 // 1) Make each card a column‐flex container that fills its parent height
 const GridItem = styled(Card)(({ theme }) => ({
@@ -15,6 +28,7 @@ const GridItem = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.body.background,
 }));
 
+// little square for marking claims
 const TeamBox = styled(Box, {
   shouldForwardProp: prop =>
     prop !== 'teamColor' &&
@@ -30,10 +44,10 @@ const TeamBox = styled(Box, {
   opacity: readOnly ? 0.6 : 1
 }));
 
-// 2) Split out top vs bottom so bottom always sits at the foot
+// The tile component
 const BingoTileComponent = ({ tile, readOnly, onToggleClaim }) => (
   <GridItem>
-    {/* 1) Top section grows to fill space */}
+    {/* Top section grows to fill space */}
     <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <CardMedia
         component="img"
@@ -51,8 +65,8 @@ const BingoTileComponent = ({ tile, readOnly, onToggleClaim }) => (
       </Typography>
     </CardContent>
 
-    {/* 2) Footer stuck to bottom */}
-    <Box sx={{ px: 2, pb: 2, mt: 'auto' }}>
+    {/* Footer stuck to bottom */}
+    <Box sx={{ px: 2, pb: 2, pr: 2, mt: 'auto' }}>
       <Typography variant="body2" align="center">
         Points: {tile.points}
       </Typography>
@@ -79,84 +93,101 @@ const BingoBoard = () => {
     : 'https://bingo.synox.is/api/claims';
 
   const [tiles, setTiles] = useState([]);
-  const [teamPoints, setTeamPoints] = useState(
-    Array(teams.length).fill(0)
-  );
+  const [teamPoints, setTeamPoints] = useState(Array(teams.length).fill(0));
+  const [tileWidth, setTileWidth] = useState(MIN_TILE_WIDTH);
 
+  // Load existing claims
   const loadClaims = useCallback(async () => {
-    const response = await fetch(API_URL);
-    const claimsData = await response.json();
+    const res = await fetch(API_URL);
+    const claims = await res.json();
     const updated = tileData.map(data => {
-      const tileClaims = claimsData.find(c => c.id === data.id);
+      const found = claims.find(c => c.id === data.id);
       return new BingoTile(
         data.id,
         data.text,
         data.image,
         data.points,
-        tileClaims ? tileClaims.claimedBy : []
+        found ? found.claimedBy : []
       );
     });
     setTiles(updated);
   }, [API_URL]);
 
-  const handleToggleClaim = async (tileId, teamId) => {
+  // Toggle a team‐claim
+  const handleToggleClaim = (tileId, teamId) => {
     if (readOnly) return;
-
-    setTiles(prevTiles =>
-      prevTiles.map(tile => {
-        if (tile.id === tileId) {
-          const newTile = new BingoTile(tile.id, tile.description, tile.image, tile.points, [...tile.claimedBy]);
-          newTile.toggleTeamClaim(teamId);
-          if (JSON.stringify(tile.claimedBy) !== JSON.stringify(newTile.claimedBy)) {
-            saveClaim(newTile);
-          }
-          return newTile;
+    setTiles(prev =>
+      prev.map(tile => {
+        if (tile.id !== tileId) return tile;
+        const copy = new BingoTile(
+          tile.id,
+          tile.description,
+          tile.image,
+          tile.points,
+          [...tile.claimedBy]
+        );
+        copy.toggleTeamClaim(teamId);
+        // only POST if changed
+        if (JSON.stringify(copy.claimedBy) !== JSON.stringify(tile.claimedBy)) {
+          saveClaim(copy);
         }
-        return tile;
+        return copy;
       })
     );
   };
 
-  const saveClaim = async (tile) => {
+  // POST to server
+  const saveClaim = async tile => {
     try {
       await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(tile),
       });
-    } catch (error) {
-      console.error('Failed to save claim:', error);
+    } catch (err) {
+      console.error('Failed to save claim:', err);
     }
   };
 
-  const calculateTeamPoints = (tiles) => {
-    const points = Array(teams.length).fill(0);
-    tiles.forEach(tile => {
-      tile.claimedBy.forEach(teamId => {
-        const teamIndex = teams.findIndex(team => team.id === teamId);
-        if (teamIndex > -1) points[teamIndex] += tile.points;
-      });
-    });
-    setTeamPoints(points);
-  };
+  // Recompute team points
+  useEffect(() => {
+    const pts = Array(teams.length).fill(0);
+    tiles.forEach(tile =>
+      tile.claimedBy.forEach(id => {
+        const idx = teams.findIndex(t => t.id === id);
+        if (idx > -1) pts[idx] += tile.points;
+      })
+    );
+    setTeamPoints(pts);
+  }, [tiles]);
 
+  // Initial load
   useEffect(() => {
     loadClaims();
   }, [loadClaims]);
 
+  // Recompute tileWidth on resize
   useEffect(() => {
-    calculateTeamPoints(tiles);
-  }, [tiles]);
+    const recalc = () => {
+      const vw = window.innerWidth;
+      const cols = Math.max(Math.floor(vw / MIN_TILE_WIDTH), 1);
+      const w = (vw / cols) * SCALE;
+      setTileWidth(w);
+    };
+    recalc();
+    window.addEventListener('resize', recalc);
+    return () => window.removeEventListener('resize', recalc);
+  }, []);
 
   return (
     <div>
+      {/* === HEADER: TEAM BADGES === */}
       <Paper
         elevation={3}
         sx={{
           p: 3,
           mb: 3,
           textAlign: 'center',
-          // 3) pull from theme
           bgcolor: 'background.default',
           border: 1,
           borderColor: 'body.border',
@@ -165,23 +196,44 @@ const BingoBoard = () => {
       >
         <Box
           display="flex"
-          justifyContent="space-around"
           alignItems="center"
-          sx={{ gap: 2 }}
+          justifyContent="center"
+          sx={{
+            flexWrap: 'wrap',    // <— allow wrapping onto next row
+            gap: 2,
+          }}
         >
           {teams.map((team, i) => (
             <Box
               key={team.id}
               sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
                 backgroundColor: team.color,
-                p: 2,
-                borderRadius: 2,
+                p: 1,
+                borderRadius: 1,
+                minWidth: 100,    // won’t vanish completely
+                flex: '0 1 auto', // can shrink but will wrap
               }}
             >
-              <Typography variant="h6">
+              <Typography
+                variant="h6"
+                sx={{
+                  fontSize: 'clamp(0.9rem, 2.5vw, 1.3rem)',
+                  lineHeight: 1.1,
+                  mb: 0.5,
+                }}
+              >
                 {team.name}
               </Typography>
-              <Typography variant="body1">
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: 'clamp(0.75rem, 1.8vw, 1.1rem)',
+                  lineHeight: 1.2,
+                }}
+              >
                 Points: {teamPoints[i]}
               </Typography>
             </Box>
@@ -191,15 +243,27 @@ const BingoBoard = () => {
 
       <Divider />
 
-      {/* 4) stretch cards to equal height, add left‐padding */}
+      {/* === BINGO GRID === */}
       <Grid
         container
-        spacing={2}
-        alignItems="stretch"
-        sx={{ pl: 2 , pb: 2, pr: .5}}
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          pl: 2,
+          pb: 2,
+          pr: 0.5,
+          gap: 2
+        }}
       >
         {tiles.map(tile => (
-          <Grid item xs={1.7} key={tile.id}>
+          <Grid
+            item
+            key={tile.id}
+            sx={{
+              flex: `0 0 ${tileWidth}px`
+            }}
+          >
             <BingoTileComponent
               tile={tile}
               readOnly={readOnly}
