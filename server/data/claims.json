@@ -1,25 +1,2 @@
 [
-  {
-    "id": 3,
-    "description": "GWD: Jokainen ase (Acb, Zs, SotD ja Ss)",
-    "image": "/images/3.png",
-    "points": 4,
-    "claimedBy": []
-  },
-  {
-    "id": 1,
-    "description": "Bryophyta's essence",
-    "image": "/images/1.png",
-    "points": 2,
-    "claimedBy": [
-      1
-    ]
-  },
-  {
-    "id": 2,
-    "description": "Corp: Blessed spirit shield (Spirit shield ja Holy elixir)",
-    "image": "/images/2.png",
-    "points": 5,
-    "claimedBy": []
-  }
 ]

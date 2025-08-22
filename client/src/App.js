@@ -6,6 +6,7 @@ import React, {
   useCallback
 } from 'react';
 import { Box }                      from '@mui/material';
+import useMediaQuery                from '@mui/material/useMediaQuery';
 import CssBaseline                  from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import SettingsMenu                 from './components/SettingsMenu';
@@ -59,7 +60,20 @@ function getInitialMode() {
 
 export default function App() {
   // ─── Dark/Light Theme Toggle ───────────────────────────────────────────────
-  const [mode, setMode] = useState(getInitialMode());
+  // 1) detect OS preference
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+  // 2) initialize from localStorage or fall back to OS
+  const [mode, setMode] = useState(() => {
+    let stored;
+    try {
+      stored = localStorage.getItem('mode');
+    } catch {}
+    if (stored === 'light' || stored === 'dark') {
+      return stored;
+    }
+    return prefersDarkMode ? 'dark' : 'light';
+  });
 
   // ─── Claims Data (hoisted) ─────────────────────────────────────────────────
   // build your API_URL once
