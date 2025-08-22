@@ -30,7 +30,7 @@ const darkOverrides = {
     light:      '#d8ccb4',
     mid:        '#d0bd97',
     dark:       '#b8a282',
-    border:     '#3c352a',
+    border:     '#5e5443',
     background: '#605443',
   },
   // text: { primary: '#000', secondary: '#777' },

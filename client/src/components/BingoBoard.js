@@ -6,47 +6,62 @@ import teams from '../data/teams';
 import BingoTile from '../models/BingoTile';
 import tileData from '../data/tiles';
 
+// 1) Make each card a column‐flex container that fills its parent height
 const GridItem = styled(Card)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
   border: `1px solid ${theme.palette.body.border}`,
   backgroundColor: theme.palette.body.background,
 }));
 
-const TeamBox = styled(Box)(
-  ({ theme, teamColor, isActive, readOnly }) => ({
-    width: '20px',
-    height: '20px',
-    margin: '0 5px',
-    backgroundColor: isActive
-      ? teamColor
-      : theme.palette.body.main,
-    border: `1px solid ${teamColor}`,
-    cursor: readOnly ? 'default' : 'pointer',
-    opacity: readOnly ? 0.6 : 1,
-  })
-);
+// unchanged
+const TeamBox = styled(Box)(({ theme, teamColor, isActive, readOnly }) => ({
+  width: 20,
+  height: 20,
+  margin: '0 5px',
+  backgroundColor: isActive
+    ? teamColor
+    : theme.palette.body.main,
+  border: `1px solid ${teamColor}`,
+  cursor: readOnly ? 'default' : 'pointer',
+  opacity: readOnly ? 0.6 : 1,
+}));
 
+// 2) Split out top vs bottom so bottom always sits at the foot
 const BingoTileComponent = ({ tile, readOnly, onToggleClaim }) => (
   <GridItem>
-    <CardMedia component="img" height="100" image={tile.image} alt={tile.description} />
-    <CardContent>
+    <CardContent sx={{ flexGrow: 1 }}>
+      <CardMedia
+        component="img"
+        height="100"
+        image={tile.image}
+        alt={tile.description}
+      />
       <Typography variant="body1" align="center">
         {tile.description}
       </Typography>
       <Typography variant="body2" align="center">
         Points: {tile.points}
       </Typography>
-      <Box display="flex" justifyContent="center" mt={1}>
-        {teams.map(team => (
-          <TeamBox
-            key={team.id}
-            teamColor={team.color}
-            isActive={tile.isClaimedByTeam(team.id)}
-            readOnly={readOnly}
-            onClick={() => !readOnly && onToggleClaim(tile.id, team.id)}
-          />
-        ))}
-      </Box>
     </CardContent>
+
+    {/* bottom bar of claim‐dots always stuck to bottom */}
+    <Box
+      display="flex"
+      justifyContent="center"
+      sx={{ mt: 'auto', pb: 2 }}
+    >
+      {teams.map(team => (
+        <TeamBox
+          key={team.id}
+          teamColor={team.color}
+          isActive={tile.isClaimedByTeam(team.id)}
+          readOnly={readOnly}
+          onClick={() => !readOnly && onToggleClaim(tile.id, team.id)}
+        />
+      ))}
+    </Box>
   </GridItem>
 );
 
@@ -58,37 +73,40 @@ const BingoBoard = () => {
     : 'https://bingo.synox.is/api/claims';
 
   const [tiles, setTiles] = useState([]);
-  const [teamPoints, setTeamPoints] = useState(Array(teams.length).fill(0));
+  const [teamPoints, setTeamPoints] = useState(
+    Array(teams.length).fill(0)
+  );
 
   const loadClaims = useCallback(async () => {
     const response = await fetch(API_URL);
     const claimsData = await response.json();
-
-    const updatedTiles = tileData.map(data => {
-      const tileClaims = claimsData.find(claim => claim.id === data.id);
+    const updated = tileData.map(data => {
+      const tileClaims = claimsData.find(c => c.id === data.id);
       return new BingoTile(
         data.id,
-        data.text, // Pass the raw text; BingoTile constructor will set it as description.
+        data.text,
         data.image,
         data.points,
-        tileClaims ? tileClaims.claimedBy : [] // Server claims data is the source of truth.
+        tileClaims ? tileClaims.claimedBy : []
       );
     });
-    setTiles(updatedTiles);
+    setTiles(updated);
   }, [API_URL]);
 
-  const handleToggleClaim = async (tileId, teamId) => {
+  const handleToggleClaim = (tileId, teamId) => {
     if (readOnly) return;
-
-    setTiles(prevTiles =>
-      prevTiles.map(tile => {
+    setTiles(prev =>
+      prev.map(tile => {
         if (tile.id === tileId) {
-          const newTile = new BingoTile(tile.id, tile.description, tile.image, tile.points, [...tile.claimedBy]);
-          newTile.toggleTeamClaim(teamId);
-          if (JSON.stringify(tile.claimedBy) !== JSON.stringify(newTile.claimedBy)) {
-            saveClaim(newTile);
-          }
-          return newTile;
+          const next = new BingoTile(
+            tile.id,
+            tile.description,
+            tile.image,
+            tile.points,
+            [...tile.claimedBy]
+          );
+          next.toggleTeamClaim(teamId);
+          return next;
         }
         return tile;
       })
@@ -134,30 +152,55 @@ const BingoBoard = () => {
           p: 3,
           mb: 3,
           textAlign: 'center',
-          backgroundColor: 'background.default',
+          // 3) pull from theme
+          bgcolor: 'background.default',
+          border: 1,
+          borderColor: 'body.border',
           borderRadius: 2,
         }}
       >
-        <Box display="flex" justifyContent="space-around" alignItems="center" sx={{ gap: 2 }}>
-          {teams.map((team, index) => (
-            <Box key={team.id} sx={{ backgroundColor: team.color, p: 2, borderRadius: 2 }}>
-              <Typography variant="h6" color="textPrimary">{team.name}</Typography>
-              <Typography variant="body1" color="textPrimary">Points: {teamPoints[index]}</Typography>
+        <Box
+          display="flex"
+          justifyContent="space-around"
+          alignItems="center"
+          sx={{ gap: 2 }}
+        >
+          {teams.map((team, i) => (
+            <Box
+              key={team.id}
+              sx={{
+                backgroundColor: team.color,
+                p: 2,
+                borderRadius: 2,
+              }}
+            >
+              <Typography variant="h6">
+                {team.name}
+              </Typography>
+              <Typography variant="body1">
+                Points: {teamPoints[i]}
+              </Typography>
             </Box>
           ))}
         </Box>
       </Paper>
+
       <Divider />
-        <Grid
-          container
-          spacing={2}
-          sx={{
-            pl: 2,          // ← adds theme‐aware padding‐left
-          }}
-        >
+
+      {/* 4) stretch cards to equal height, add left‐padding */}
+      <Grid
+        container
+        spacing={2}
+        alignItems="stretch"
+        sx={{ pl: 2 }}
+      >
         {tiles.map(tile => (
           <Grid item xs={1.7} key={tile.id}>
-            <BingoTileComponent tile={tile} readOnly={readOnly} onToggleClaim={handleToggleClaim} />
+            <BingoTileComponent
+              tile={tile}
+              readOnly={readOnly}
+              onToggleClaim={handleToggleClaim}
+            />
           </Grid>
         ))}
       </Grid>
