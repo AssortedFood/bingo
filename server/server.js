@@ -13,10 +13,11 @@ app.use(express.json());
 app.use('/api/claims', claimsRoutes(/* debug flag if needed */));
 
 // Serve static files from the React build
-app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
+// Catch-all route to serve index.html for any non-API requests
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 app.listen(PORT, () => {
