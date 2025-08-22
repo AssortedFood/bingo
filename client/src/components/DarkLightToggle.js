@@ -1,38 +1,55 @@
+// src/components/DarkLightToggle.js
 import React from 'react';
-import IconButton from '@mui/material/IconButton';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import LightModeIcon from '@mui/icons-material/LightMode';
+import {
+  MenuItem,
+  ListItemIcon,
+  ListItemText
+} from '@mui/material';
+
+// import gives you a URL string
+import LightModeImg from '../assets/icons/light-mode.png';
+import DarkModeImg  from '../assets/icons/dark-mode.png';
 
 /**
- * Exactly your in-App dark/light toggle, extracted
- *
  * Props:
- *  - mode:    "light" | "dark"
- *  - setMode: (next: "light"|"dark") => void
+ *  – mode:        'light' | 'dark'
+ *  – setMode:     fn
+ *  – staysOpen:   boolean
+ *  – toggleClose: fn
  */
-export default function DarkLightToggle({ mode, setMode }) {
-  const handleToggle = () => {
+export default function DarkLightToggle({
+  mode,
+  setMode,
+  staysOpen = true,
+  toggleClose = () => {}
+}) {
+  const handleClick = () => {
     setMode(prev => {
       const next = prev === 'light' ? 'dark' : 'light';
-      try { localStorage.setItem('mode', next); } catch {}
+      try { localStorage.setItem('mode', next) } catch {}
       return next;
     });
+    if (!staysOpen) toggleClose();
   };
 
+  // pick the correct URL
+  const iconSrc = mode === 'light'
+    ? DarkModeImg
+    : LightModeImg;
+
+  const label = mode === 'light'
+    ? 'Dark Mode'
+    : 'Light Mode';
+
   return (
-    <IconButton
-      onClick={handleToggle}
-      size="small"
-      sx={{
-        bgcolor: 'transparent',
-        '&:hover': { bgcolor: 'transparent' },
-        p: 0.5,
-      }}
-    >
-      {mode === 'light'
-        ? <DarkModeIcon fontSize="small" />
-        : <LightModeIcon fontSize="small" />
-      }
-    </IconButton>
+    <MenuItem onClick={handleClick}>
+      <ListItemIcon>
+        <img
+          src={iconSrc}
+          alt={label}
+        />
+      </ListItemIcon>
+      <ListItemText primary={label} />
+    </MenuItem>
   );
 }

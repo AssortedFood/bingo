@@ -1,56 +1,65 @@
+// src/components/AutoRefreshToggle.js
 import React, { useState, useEffect } from 'react';
-import { MenuItem, ListItemText } from '@mui/material';
-import RefreshIcon                from '@mui/icons-material/Refresh';
+import {
+  MenuItem,
+  ListItemIcon,
+  ListItemText
+} from '@mui/material';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 /**
  * Props:
- *  - onRefresh   () => void     // called immediately and every 60s while enabled
- *  - staysOpen   boolean        // keeps parent Menu open
- *  - toggleClose () => void     // no‐op or optional close handler
+ *  – onRefresh:    () => void    // fire immediately + every `interval`
+ *  – staysOpen:    boolean
+ *  – toggleClose:  fn
+ *  – interval:     number        // seconds
  */
 export default function AutoRefreshToggle({
   onRefresh,
-  staysOpen,
-  toggleClose = () => {}
+  staysOpen = true,
+  toggleClose = () => {},
+  interval
 }) {
-  const [enabled, setEnabled] = useState(false);
-  const [countdown, setCountdown] = useState(60);
+  const [enabled, setEnabled]     = useState(false);
+  const [countdown, setCountdown] = useState(interval);
 
   useEffect(() => {
     if (!enabled) {
-      setCountdown(60);
+      setCountdown(interval);
       return;
     }
-    // immediate fire
+    // fire immediately
     onRefresh();
-
-    let sec = 60;
+    let sec = interval;
     setCountdown(sec);
+
     const id = setInterval(() => {
       sec -= 1;
       if (sec <= 0) {
         onRefresh();
-        sec = 60;
+        sec = interval;
       }
       setCountdown(sec);
     }, 1000);
 
     return () => clearInterval(id);
-  }, [enabled, onRefresh]);
+  }, [enabled, onRefresh, interval]);
 
   const handleClick = () => {
-    setEnabled(prev => !prev);
+    setEnabled(x => !x);
     if (!staysOpen) toggleClose();
   };
 
   return (
     <MenuItem onClick={handleClick}>
-      <RefreshIcon fontSize="small" sx={{ mr: 1 }} />
+      <ListItemIcon>
+        <RefreshIcon fontSize="small" />
+      </ListItemIcon>
       <ListItemText
         primary={
           enabled
-            ? `Auto‐refresh (${countdown}s)`
-            : 'Auto‐refresh'
+            ? `Auto-refresh (${countdown}s)`
+            : 'Auto-refresh'
         }
       />
     </MenuItem>
