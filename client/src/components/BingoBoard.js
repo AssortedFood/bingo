@@ -31,36 +31,40 @@ const TeamBox = styled(Box)(({ theme, teamColor, isActive, readOnly }) => ({
 // 2) Split out top vs bottom so bottom always sits at the foot
 const BingoTileComponent = ({ tile, readOnly, onToggleClaim }) => (
   <GridItem>
-    <CardContent sx={{ flexGrow: 1 }}>
+    {/* 1) Top section grows to fill space */}
+    <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <CardMedia
         component="img"
-        height="100"
         image={tile.image}
         alt={tile.description}
+        sx={{
+          height: 100,
+          width: '100%',
+          objectFit: 'contain',
+          mb: 1,
+        }}
       />
       <Typography variant="body1" align="center">
         {tile.description}
       </Typography>
+    </CardContent>
+
+    {/* 2) Footer stuck to bottom */}
+    <Box sx={{ px: 2, pb: 2, mt: 'auto' }}>
       <Typography variant="body2" align="center">
         Points: {tile.points}
       </Typography>
-    </CardContent>
-
-    {/* bottom bar of claim‐dots always stuck to bottom */}
-    <Box
-      display="flex"
-      justifyContent="center"
-      sx={{ mt: 'auto', pb: 2 }}
-    >
-      {teams.map(team => (
-        <TeamBox
-          key={team.id}
-          teamColor={team.color}
-          isActive={tile.isClaimedByTeam(team.id)}
-          readOnly={readOnly}
-          onClick={() => !readOnly && onToggleClaim(tile.id, team.id)}
-        />
-      ))}
+      <Box display="flex" justifyContent="center" mt={1}>
+        {teams.map(team => (
+          <TeamBox
+            key={team.id}
+            teamColor={team.color}
+            isActive={tile.isClaimedByTeam(team.id)}
+            readOnly={readOnly}
+            onClick={() => !readOnly && onToggleClaim(tile.id, team.id)}
+          />
+        ))}
+      </Box>
     </Box>
   </GridItem>
 );
