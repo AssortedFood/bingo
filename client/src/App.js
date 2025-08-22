@@ -98,12 +98,11 @@ function App() {
       <IconButton
         onClick={() => setMode(m => (m === "light" ? "dark" : "light"))}
         size="small"           // make the button a bit smaller
-        disableRipple          // disable ripple effect entirely
         sx={{
           bgcolor: "transparent",
           "&:hover": { bgcolor: "transparent" },
           p: 0.5,               // reduce padding if you like
-          position: "fixed",
+          position: 'absolute',
           top: 8,
           right: 8,
           zIndex: theme => theme.zIndex.appBar,

@@ -196,7 +196,7 @@ const BingoBoard = () => {
         container
         spacing={2}
         alignItems="stretch"
-        sx={{ pl: 2 }}
+        sx={{ pl: 2 , pb: 2, pr: .5}}
       >
         {tiles.map(tile => (
           <Grid item xs={1.7} key={tile.id}>
