@@ -1,59 +1,58 @@
-import React from 'react'
-import { Box, Checkbox, FormControlLabel, Typography } from '@mui/material'
+import React, { useState, useEffect } from 'react';
+import { MenuItem, ListItemText } from '@mui/material';
+import RefreshIcon                from '@mui/icons-material/Refresh';
 
 /**
  * Props:
- *  - checked    bool
- *  - onChange   (evt) => void
- *  - countdown? number (optional)
+ *  - onRefresh   () => void     // called immediately and every 60s while enabled
+ *  - staysOpen   boolean        // keeps parent Menu open
+ *  - toggleClose () => void     // no‐op or optional close handler
  */
 export default function AutoRefreshToggle({
-  checked,
-  onChange,
-  countdown
+  onRefresh,
+  staysOpen,
+  toggleClose = () => {}
 }) {
+  const [enabled, setEnabled] = useState(false);
+  const [countdown, setCountdown] = useState(60);
+
+  useEffect(() => {
+    if (!enabled) {
+      setCountdown(60);
+      return;
+    }
+    // immediate fire
+    onRefresh();
+
+    let sec = 60;
+    setCountdown(sec);
+    const id = setInterval(() => {
+      sec -= 1;
+      if (sec <= 0) {
+        onRefresh();
+        sec = 60;
+      }
+      setCountdown(sec);
+    }, 1000);
+
+    return () => clearInterval(id);
+  }, [enabled, onRefresh]);
+
+  const handleClick = () => {
+    setEnabled(prev => !prev);
+    if (!staysOpen) toggleClose();
+  };
+
   return (
-    <Box
-      component="form"
-      title="Auto-refresh price data every 60 seconds while this tab is in focus."
-      sx={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        mx: 1.5,           // mr-sm-3 & ml-sm-3
-      }}
-    >
-      <FormControlLabel
-        className="form-check"
-        control={
-          <Checkbox
-            className="form-check-input"
-            size="small"
-            checked={checked}
-            onChange={onChange}
-          />
+    <MenuItem onClick={handleClick}>
+      <RefreshIcon fontSize="small" sx={{ mr: 1 }} />
+      <ListItemText
+        primary={
+          enabled
+            ? `Auto‐refresh (${countdown}s)`
+            : 'Auto‐refresh'
         }
-        label={
-          <Typography component="span" className="form-check-label">
-            Auto-refresh{' '}
-            {typeof countdown === 'number' && (
-              <Typography
-                component="span"
-                className="wgl-muted"
-                sx={{ color: 'text.secondary', ml: 0.5 }}
-              >
-                ({countdown})
-              </Typography>
-            )}
-          </Typography>
-        }
-        sx={{ // remove extra padding on the label wrapper
-          m: 0,
-          '& .MuiFormControlLabel-label': {
-            marginLeft: 0,
-            userSelect: 'none'
-          }
-        }}
       />
-    </Box>
-  )
+    </MenuItem>
+  );
 }

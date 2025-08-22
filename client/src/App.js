@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Box }                      from '@mui/material';
 import CssBaseline                  from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -41,7 +41,7 @@ function getInitialMode() {
   if (typeof window !== 'undefined') {
     try {
       const m = localStorage.getItem('mode');
-      if (m === 'light' || m === 'dark') return m;
+      if (m==='light'||m==='dark') return m;
     } catch {}
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return 'dark';
@@ -50,77 +50,50 @@ function getInitialMode() {
   return 'light';
 }
 
-function App() {
-  // dark/light
-  const [mode, setMode] = useState(getInitialMode);
+export default function App() {
+  // dark/light toggle
+  const [mode, setMode] = useState(getInitialMode());
+  // used to force BingoBoard reload
+  const [refreshKey, setRefreshKey] = useState(0);
 
-  // auto-refresh + countdown + trigger key:
-  const [autoRefresh, setAutoRefresh] = useState(false);
-  const [countdown,   setCountdown]   = useState(60);
-  const [refreshKey,  setRefreshKey]  = useState(0);
-
-  // when auto‐refresh flips:
-  useEffect(() => {
-    if (!autoRefresh) {
-      // reset countdown
-      setCountdown(60);
-      return;
-    }
-    // trigger immediate refresh
+  // callback passed into Menu → increments refreshKey
+  const handleRefresh = () => {
     setRefreshKey(k => k + 1);
-
-    let sec = 60;
-    setCountdown(sec);
-    const id = setInterval(() => {
-      sec -= 1;
-      if (sec <= 0) {
-        setRefreshKey(k => k + 1);
-        sec = 60;
-      }
-      setCountdown(sec);
-    }, 1000);
-    return () => clearInterval(id);
-  }, [autoRefresh]);
+  };
 
   // build themes once
-  const lightTheme = useMemo(() =>
-    createTheme({
-      palette:   { ...lightPalette, mode: 'light' },
-      typography:{ fontFamily: `"Runescape", ${lightPalette.text.primary}` }
-    }), []
-  );
-  const darkTheme = useMemo(() =>
-    createTheme({
-      palette:   { ...lightPalette, ...darkOverrides, mode: 'dark' },
-      typography:{ fontFamily: `"Runescape", ${darkOverrides.text.primary}` }
-    }), []
-  );
-  const theme = mode === 'light' ? lightTheme : darkTheme;
+  const lightTheme = useMemo(()=>createTheme({
+    palette:   { ...lightPalette, mode:'light' },
+    typography:{ fontFamily:`"Runescape",${lightPalette.text.primary}` }
+  }),[]);
+
+  const darkTheme = useMemo(()=>createTheme({
+    palette:   { ...lightPalette, ...darkOverrides, mode:'dark' },
+    typography:{ fontFamily:`"Runescape",${darkOverrides.text.primary}` }
+  }),[]);
+
+  const theme = mode==='light'? lightTheme: darkTheme;
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
-      {/* top‐right combined menu */}
+      {/* top-right settings */}
       <Box sx={{
         position: 'fixed',
-        top:      theme => theme.spacing(1),
-        right:    theme => theme.spacing(1),
-        zIndex:   theme => theme.zIndex.appBar
+        top:      theme=>theme.spacing(1),
+        right:    theme=>theme.spacing(1),
+        zIndex:   theme=>theme.zIndex.appBar
       }}>
         <SettingsMenu
           mode={mode}
           setMode={setMode}
-          autoRefresh={autoRefresh}
-          setAutoRefresh={setAutoRefresh}
-          countdown={countdown}
+          onRefresh={handleRefresh}
         />
       </Box>
 
-      {/* pass refreshKey so BingoBoard can refetch */}
+      {/* BingoBoard re-fetches when refreshKey changes */}
       <BingoBoard refreshKey={refreshKey} />
     </ThemeProvider>
   );
 }
-
-export default App;
