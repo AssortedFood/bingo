@@ -8,5 +8,5 @@
 - ~~autorefresh settings label should persist when menu is closed (continuing the countdown and showing it if reopened)~~
 - ~~toggling settingsmenu shouldnt change the width of the teams box section thingy~~
 - fonts not loading runescape.ttf immediately and switching on refresh
-- hamburger should be pos: abs not fixed
+- ~~hamburger should be pos: abs not fixed~~
 - dark light mode should default to os level pref

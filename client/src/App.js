@@ -156,7 +156,7 @@ export default function App() {
       {/* Top-right settings */}
       <Box
         sx={{
-          position: 'fixed',
+          position: 'absolute',
           top:      theme => theme.spacing(1),
           right:    theme => theme.spacing(1),
           zIndex:   theme => theme.zIndex.appBar,
