@@ -97,20 +97,18 @@ const BingoBoard = () => {
     setTiles(updated);
   }, [API_URL]);
 
-  const handleToggleClaim = (tileId, teamId) => {
+  const handleToggleClaim = async (tileId, teamId) => {
     if (readOnly) return;
-    setTiles(prev =>
-      prev.map(tile => {
+
+    setTiles(prevTiles =>
+      prevTiles.map(tile => {
         if (tile.id === tileId) {
-          const next = new BingoTile(
-            tile.id,
-            tile.description,
-            tile.image,
-            tile.points,
-            [...tile.claimedBy]
-          );
-          next.toggleTeamClaim(teamId);
-          return next;
+          const newTile = new BingoTile(tile.id, tile.description, tile.image, tile.points, [...tile.claimedBy]);
+          newTile.toggleTeamClaim(teamId);
+          if (JSON.stringify(tile.claimedBy) !== JSON.stringify(newTile.claimedBy)) {
+            saveClaim(newTile);
+          }
+          return newTile;
         }
         return tile;
       })
