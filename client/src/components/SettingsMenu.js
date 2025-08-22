@@ -30,6 +30,7 @@ export default function SettingsMenu({
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={closeMenu}
+        keepMounted
         PaperProps={{ sx: { minWidth: 180 } }}
       >
         <DarkLightToggle

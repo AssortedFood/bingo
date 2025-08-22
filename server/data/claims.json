@@ -11,7 +11,9 @@
     "description": "Bryophyta's essence",
     "image": "/images/1.png",
     "points": 2,
-    "claimedBy": []
+    "claimedBy": [
+      1
+    ]
   },
   {
     "id": 2,
