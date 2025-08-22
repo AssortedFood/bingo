@@ -65,7 +65,35 @@ const darkOverrides = {
 //     --osrsw-brown: #605443;
 
 function App() {
-  const [mode, setMode] = useState('light');
+  // pick up stored mode, else OS preference, else default to light
+  const getInitialMode = () => {
+    if (typeof window !== 'undefined') {
+      // 1) do we have a saved value?
+      try {
+        const stored = localStorage.getItem('mode');
+        if (stored === 'light' || stored === 'dark') {
+          return stored;
+        }
+      } catch {}
+      // 2) no saved value → check the OS setting
+      const mql = window.matchMedia("(prefers-color-scheme: dark)");
+      if (mql.matches) {
+        return 'dark';
+      }
+    }
+    // 3) fallback
+    return 'light';
+  };
+
+  const [mode, setMode] = useState(getInitialMode);
+
+  const handleToggle = () => {
+    setMode(prev => {
+      const next = prev === 'light' ? 'dark' : 'light';
+      try { localStorage.setItem('mode', next); } catch {}
+      return next;
+    });
+  };
 
   // 3) create two themes, merging lightPalette + (darkOverrides if dark)
   const lightTheme = useMemo(
@@ -96,7 +124,7 @@ function App() {
 
       {/* 4) simple toggle button */}
       <IconButton
-        onClick={() => setMode(m => (m === "light" ? "dark" : "light"))}
+        onClick={handleToggle}
         size="small"           // make the button a bit smaller
         sx={{
           bgcolor: "transparent",
