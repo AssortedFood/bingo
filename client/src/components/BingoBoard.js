@@ -11,15 +11,19 @@ const GridItem = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.body.background,
 }));
 
-const TeamBox = styled(Box)(({ teamColor, isActive, readOnly }) => ({
-  width: '20px',
-  height: '20px',
-  margin: '0 5px',
-  backgroundColor: isActive ? teamColor : '#E2DBC8',
-  border: `1px solid ${teamColor}`,
-  cursor: readOnly ? 'default' : 'pointer',
-  opacity: readOnly ? 0.6 : 1,
-}));
+const TeamBox = styled(Box)(
+  ({ theme, teamColor, isActive, readOnly }) => ({
+    width: '20px',
+    height: '20px',
+    margin: '0 5px',
+    backgroundColor: isActive
+      ? teamColor
+      : theme.palette.body.main,
+    border: `1px solid ${teamColor}`,
+    cursor: readOnly ? 'default' : 'pointer',
+    opacity: readOnly ? 0.6 : 1,
+  })
+);
 
 const BingoTileComponent = ({ tile, readOnly, onToggleClaim }) => (
   <GridItem>
@@ -130,8 +134,7 @@ const BingoBoard = () => {
           p: 3,
           mb: 3,
           textAlign: 'center',
-          backgroundColor: '#c0a886',
-          border: '1px solid #94866d',
+          backgroundColor: 'background.default',
           borderRadius: 2,
         }}
       >
@@ -145,7 +148,13 @@ const BingoBoard = () => {
         </Box>
       </Paper>
       <Divider />
-      <Grid container spacing={2}>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            pl: 2,          // ← adds theme‐aware padding‐left
+          }}
+        >
         {tiles.map(tile => (
           <Grid item xs={1.7} key={tile.id}>
             <BingoTileComponent tile={tile} readOnly={readOnly} onToggleClaim={handleToggleClaim} />
