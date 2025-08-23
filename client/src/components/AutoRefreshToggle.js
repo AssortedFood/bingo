@@ -5,7 +5,7 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material';
-import RefreshIcon from '@mui/icons-material/Refresh';
+import RefreshIcon  from '../assets/icons/refresh.png';
 
 export default function AutoRefreshToggle({
   onRefresh,    // now your App’s loadClaims()
@@ -56,7 +56,10 @@ export default function AutoRefreshToggle({
   return (
     <MenuItem onClick={handleClick}>
       <ListItemIcon>
-        <RefreshIcon fontSize="small"/>
+        <img
+          src={RefreshIcon}
+          alt="Refresh"
+        />
       </ListItemIcon>
       <ListItemText
         primary={
