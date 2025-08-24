@@ -85,7 +85,7 @@ const rawTiles = [
   },
   {
     "id": 15,
-    "text": "Royal Titans: Molemmat prayer scrollit",
+    "text": "Brine sabre",
     "points": 2,
     "image": "/images/15.png"
   },
@@ -301,7 +301,7 @@ const rawTiles = [
   },
   {
     "id": 51,
-    "text": "Tempoross: Tacklebox, Barrel TAI Dragon harpoon",
+    "text": "Tempoross: Tacklebox, Barrel/Soaked page TAI Dragon harpoon",
     "points": 2,
     "image": "/images/51.png"
   },
@@ -637,7 +637,7 @@ const rawTiles = [
   },
   {
     "id": 107,
-    "text": "1x gilded(ei golden) tai 3rd age cluesta",
+    "text": "1x gilded(ei golden)",
     "points": 4,
     "image": "/images/107.png"
   },
@@ -796,6 +796,18 @@ const rawTiles = [
     "text": "Trident (Full)",
     "points": 1,
     "image": "/images/133.png"
+  },
+  {
+    "id": 134,
+    "text": "Bottomless combost bucket",
+    "points": 1,
+    "image": "/images/134.png"
+  },
+  {
+    "id": 135,
+    "text": "3rd age cluesta (Ei ring)",
+    "points": 10,
+    "image": "/images/135.png"
   }
 ];
 
