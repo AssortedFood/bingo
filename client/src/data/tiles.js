@@ -199,8 +199,8 @@ const rawTiles = [
   },
   {
     "id": 34,
-    "text": "Fishing: Big bass, Big shark tai Big swordfish",
-    "points": 1,
+    "text": "Fishing: 2x isoa kalaa: Big bass, Big shark tai Big swordfish",
+    "points": 2,
     "image": "/images/34.png"
   },
   {
@@ -217,7 +217,7 @@ const rawTiles = [
   },
   {
     "id": 37,
-    "text": "DT2: 2 ERILAISTA vestigeä (Ultor, Venator, Bellator ja Magus)",
+    "text": "DT2: 6 gold ring/vestige",
     "points": 4,
     "image": "/images/37.png"
   },
