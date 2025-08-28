@@ -34,8 +34,6 @@ export default function ContactDialog({ open, onClose }) {
           <img
             src={CloseIconImg}
             alt="Close"
-            width={24}
-            height={24}
           />
         </IconButton>
       </DialogTitle>

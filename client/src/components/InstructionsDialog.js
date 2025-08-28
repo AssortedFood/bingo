@@ -26,9 +26,7 @@ export default function InstructionsDialog({ open, onClose }) {
         >
           <img 
            src={CloseIconImg} 
-           alt="Close" 
-           width={24} 
-           height={24}
+           alt="Close"
          />
         </IconButton>
       </DialogTitle>
