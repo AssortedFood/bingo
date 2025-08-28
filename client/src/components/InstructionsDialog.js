@@ -6,7 +6,7 @@ import {
   Box,
   IconButton
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIconImg from '../assets/icons/close.png';
 
 export default function InstructionsDialog({ open, onClose }) {
   return (
@@ -18,7 +18,12 @@ export default function InstructionsDialog({ open, onClose }) {
           onClick={onClose}
           sx={{ position: 'absolute', right: 8, top: 8 }}
         >
-          <CloseIcon />
+          <img 
+           src={CloseIconImg} 
+           alt="Close" 
+           width={24} 
+           height={24}
+         />
         </IconButton>
       </DialogTitle>
       <DialogContent

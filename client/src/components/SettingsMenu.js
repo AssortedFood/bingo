@@ -7,7 +7,7 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material';
-import MenuIcon           from '@mui/icons-material/Menu';
+import SettingsIconImg    from '../assets/icons/settings.png';
 import DarkLightToggle    from './DarkLightToggle';
 import AutoRefreshToggle  from './AutoRefreshToggle';
 import InstructionsIcon from '../assets/icons/instructions.png';
@@ -27,9 +27,14 @@ export default function SettingsMenu({
 
   return (
     <>
-      <IconButton size="small" onClick={openMenu}>
-        <MenuIcon />
-      </IconButton>
+     <IconButton size="small" onClick={openMenu}>
+       <img 
+         src={SettingsIconImg} 
+         alt="Settings" 
+         width={24} 
+         height={24}
+       />
+     </IconButton>
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
