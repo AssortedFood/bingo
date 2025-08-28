@@ -3,16 +3,20 @@ import React from 'react';
 import {
   IconButton,
   Menu,
-  MenuItem
+  MenuItem,
+  ListItemIcon,
+  ListItemText
 } from '@mui/material';
 import MenuIcon           from '@mui/icons-material/Menu';
 import DarkLightToggle    from './DarkLightToggle';
 import AutoRefreshToggle  from './AutoRefreshToggle';
+import InstructionsIcon from '../assets/icons/instructions.png';
 
 export default function SettingsMenu({
   mode,
   setMode,
-  onRefresh
+  onRefresh,
+  onInstructions
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openMenu  = e => setAnchorEl(e.currentTarget);
@@ -47,6 +51,17 @@ export default function SettingsMenu({
           toggleClose={closeMenu}
           interval={REFRESH_INTERVAL}
         />
+        <MenuItem
+          onClick={() => {
+            onInstructions();
+            closeMenu();
+          }}
+        >
+          <ListItemIcon>
+            <img src={InstructionsIcon} alt="Instructions" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Instructions" />
+        </MenuItem>
       </Menu>
     </>
   );

@@ -10,6 +10,7 @@ import useMediaQuery                from '@mui/material/useMediaQuery';
 import CssBaseline                  from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import SettingsMenu                 from './components/SettingsMenu';
+import InstructionsDialog from './components/InstructionsDialog';
 import BingoBoard                   from './components/BingoBoard';
 
 import tileData   from './data/tiles';
@@ -59,6 +60,8 @@ function getInitialMode() {
 }
 
 export default function App() {
+  const [showInstructions, setShowInstructions] = useState(false);
+
   // ─── Dark/Light Theme Toggle ───────────────────────────────────────────────
   // 1) detect OS preference
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -163,6 +166,9 @@ export default function App() {
   );
   const theme = mode === 'light' ? lightTheme : darkTheme;
 
+  const openInstructions = () => setShowInstructions(true);
+  const closeInstructions = () => setShowInstructions(false);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -181,6 +187,7 @@ export default function App() {
           mode={mode}
           setMode={setMode}
           onRefresh={loadClaims}
+          onInstructions={openInstructions}
         />
       </Box>
 
@@ -189,6 +196,10 @@ export default function App() {
         tiles={tiles}
         onToggleClaim={handleToggleClaim}
         readOnly={readOnly}
+      />
+      <InstructionsDialog
+        open={showInstructions}
+        onClose={closeInstructions}
       />
     </ThemeProvider>
   );
