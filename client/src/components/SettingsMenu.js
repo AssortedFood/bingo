@@ -11,12 +11,14 @@ import SettingsIconImg    from '../assets/icons/settings.png';
 import DarkLightToggle    from './DarkLightToggle';
 import AutoRefreshToggle  from './AutoRefreshToggle';
 import InstructionsIcon from '../assets/icons/instructions.png';
+import ContactIcon from '../assets/icons/bond.png';
 
 export default function SettingsMenu({
   mode,
   setMode,
   onRefresh,
-  onInstructions
+  onInstructions,
+  onContact
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openMenu  = e => setAnchorEl(e.currentTarget);
@@ -67,6 +69,17 @@ export default function SettingsMenu({
           </ListItemIcon>
           <ListItemText primary="Instructions" />
         </MenuItem>
+          <MenuItem
+            onClick={() => {
+              onContact();
+              closeMenu();
+            }}
+          >
+            <ListItemIcon>
+              <img src={ContactIcon} alt="Contact us" width={24} height={24} />
+            </ListItemIcon>
+            <ListItemText primary="Contact us" />
+          </MenuItem>
       </Menu>
     </>
   );

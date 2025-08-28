@@ -11,6 +11,7 @@ import CssBaseline                  from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import SettingsMenu                 from './components/SettingsMenu';
 import InstructionsDialog from './components/InstructionsDialog';
+import ContactDialog from './components/ContactDialog';
 import BingoBoard                   from './components/BingoBoard';
 
 import tileData   from './data/tiles';
@@ -42,7 +43,7 @@ const darkOverrides = {
     border:     '#5e5443',
     background: '#605443',
   },
-  text:    { primary: '#000', secondary: '#777' },
+  text:    { primary: '#000', secondary: '#434343' },
   divider: '#605443',
 };
 // pick up saved or OS‐pref mode
@@ -61,6 +62,7 @@ function getInitialMode() {
 
 export default function App() {
   const [showInstructions, setShowInstructions] = useState(false);
+  const [showContact, setShowContact] = useState(false);
 
   // ─── Dark/Light Theme Toggle ───────────────────────────────────────────────
   // 1) detect OS preference
@@ -169,6 +171,9 @@ export default function App() {
   const openInstructions = () => setShowInstructions(true);
   const closeInstructions = () => setShowInstructions(false);
 
+  const openContact = () => setShowContact(true);
+  const closeContact = () => setShowContact(false);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -188,6 +193,7 @@ export default function App() {
           setMode={setMode}
           onRefresh={loadClaims}
           onInstructions={openInstructions}
+          onContact={openContact}
         />
       </Box>
 
@@ -200,6 +206,10 @@ export default function App() {
       <InstructionsDialog
         open={showInstructions}
         onClose={closeInstructions}
+      />
+      <ContactDialog
+        open={showContact}
+        onClose={closeContact}
       />
     </ThemeProvider>
   );
