@@ -10,7 +10,13 @@ import CloseIconImg from '../assets/icons/close.png';
 
 export default function InstructionsDialog({ open, onClose }) {
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
+       <Dialog
+          open={open}
+          onClose={onClose}
+          fullWidth
+          maxWidth="md"
+          disableScrollLock
+        >
       <DialogTitle sx={{ fontFamily: '"Runescape", sans-serif', position: 'relative' }}>
         Discovalot Bingo – Syyskuu 2025
         <IconButton

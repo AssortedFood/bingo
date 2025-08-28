@@ -1,7 +1,6 @@
 # TODO
 
-- ~~replace settings hamburger icon and instructions dialog close icons with runescape icons (settings.png, close.png)~~
-- fix box border appearing when opening instructions
+- ~~fix box border appearing when opening instructions~~
 - add contact item to SettingsMenu. contains:
     - contact metalgeezer for updates/bugfixes
     - created by oxi
