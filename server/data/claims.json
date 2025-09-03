@@ -1,1 +1,226 @@
-[]
+[
+  {
+    "id": 1,
+    "description": "Bryophyta's essence",
+    "image": "/images/1.png",
+    "points": 2,
+    "claimedBy": [
+      1
+    ]
+  },
+  {
+    "id": 2,
+    "description": "Corp: Blessed spirit shield (Spirit shield ja Holy elixir)",
+    "image": "/images/2.png",
+    "points": 5,
+    "claimedBy": [
+      2
+    ]
+  },
+  {
+    "id": 3,
+    "description": "GWD: Jokainen ase (Acb, Zs, SotD ja Ss)",
+    "image": "/images/3.png",
+    "points": 4,
+    "claimedBy": [
+      3
+    ]
+  },
+  {
+    "id": 4,
+    "description": "GWD: Jokainen hiltti (Armadyl, Zamorak, Saradomin ja Bandos)",
+    "image": "/images/4.png",
+    "points": 4,
+    "claimedBy": [
+      4
+    ]
+  },
+  {
+    "id": 5,
+    "description": "Dagannoth kings: Jokainen ringi (ei tarvii vetää yhessä reissussa)",
+    "image": "/images/5.png",
+    "points": 3,
+    "claimedBy": [
+      5
+    ]
+  },
+  {
+    "id": 6,
+    "description": "Yama: 3x Oathplate armor",
+    "image": "/images/6.png",
+    "points": 4,
+    "claimedBy": [
+      6
+    ]
+  },
+  {
+    "id": 7,
+    "description": "Yama: Souflame horn",
+    "image": "/images/7.png",
+    "points": 2,
+    "claimedBy": [
+      1,
+      2
+    ]
+  },
+  {
+    "id": 8,
+    "description": "Doom of Mokhaiotl: Avernic treads",
+    "image": "/images/8.png",
+    "points": 3,
+    "claimedBy": [
+      2,
+      3
+    ]
+  },
+  {
+    "id": 9,
+    "description": "CG: Enhanced crystal weapon seed (tai 6 crystal armor seedii tai petti)",
+    "image": "/images/9.png",
+    "points": 5,
+    "claimedBy": [
+      3,
+      4
+    ]
+  },
+  {
+    "id": 10,
+    "description": "Dragon axe, Mud battlestaff ja Seercull",
+    "image": "/images/10.png",
+    "points": 1,
+    "claimedBy": [
+      4,
+      5
+    ]
+  },
+  {
+    "id": 11,
+    "description": "Moons of Peril: 1x täysi setti (armorit ja ase)",
+    "image": "/images/11.png",
+    "points": 1,
+    "claimedBy": [
+      5,
+      6
+    ]
+  },
+  {
+    "id": 12,
+    "description": "Nex: 2x uniikki",
+    "image": "/images/12.png",
+    "points": 4,
+    "claimedBy": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "id": 13,
+    "description": "Nightmare: 1x orbi",
+    "image": "/images/13.png",
+    "points": 5,
+    "claimedBy": [
+      2,
+      3,
+      4
+    ]
+  },
+  {
+    "id": 14,
+    "description": "Royal Titans: Twinflame staff (molemmat osat)",
+    "image": "/images/14.png",
+    "points": 2,
+    "claimedBy": [
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "id": 15,
+    "description": "Brine sabre",
+    "image": "/images/15.png",
+    "points": 2,
+    "claimedBy": [
+      4,
+      5,
+      6
+    ]
+  },
+  {
+    "id": 16,
+    "description": "Voidwaker (kaikki osat)",
+    "image": "/images/16.png",
+    "points": 4,
+    "claimedBy": [
+      1,
+      2,
+      4,
+      3
+    ]
+  },
+  {
+    "id": 17,
+    "description": "Vorkath: 1x uniikki (ei pää)",
+    "image": "/images/17.png",
+    "points": 3,
+    "claimedBy": [
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "id": 18,
+    "description": "Zulrah: 3x uniikki (ei mutagen)",
+    "image": "/images/18.png",
+    "points": 3,
+    "claimedBy": [
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  {
+    "id": 19,
+    "description": "Zulrah: Mutagen",
+    "image": "/images/19.png",
+    "points": 5,
+    "claimedBy": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  {
+    "id": 20,
+    "description": "Wintertodt: Tome of Fire",
+    "image": "/images/20.png",
+    "points": 2,
+    "claimedBy": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  {
+    "id": 21,
+    "description": "Tempoross: Tome of Water",
+    "image": "/images/21.png",
+    "points": 2,
+    "claimedBy": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  }
+]

@@ -5,18 +5,17 @@ import React, {
   useEffect,
   useCallback
 } from 'react';
-import { Box }                      from '@mui/material';
-import useMediaQuery                from '@mui/material/useMediaQuery';
-import CssBaseline                  from '@mui/material/CssBaseline';
+import { Box }                        from '@mui/material';
+import useMediaQuery                  from '@mui/material/useMediaQuery';
+import CssBaseline                    from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import SettingsMenu                 from './components/SettingsMenu';
-import InstructionsDialog from './components/InstructionsDialog';
-import ContactDialog from './components/ContactDialog';
-import BingoBoard                   from './components/BingoBoard';
-
-import tileData   from './data/tiles';
-import BingoTile  from './models/BingoTile';
-import teams      from './data/teams'; // only needed if you want to compute teamColors/readOnly here
+import SettingsMenu                   from './components/SettingsMenu';
+import InstructionsDialog             from './components/InstructionsDialog';
+import ContactDialog                  from './components/ContactDialog';
+import BingoBoard                     from './components/BingoBoard';
+import tileData                       from './data/tiles';
+import BingoTile                      from './models/BingoTile';
+import teams                          from './data/teams';
 
 // 1) central “light” palette:
 const lightPalette = {
@@ -46,12 +45,13 @@ const darkOverrides = {
   text:    { primary: '#000', secondary: '#434343' },
   divider: '#605443',
 };
+
 // pick up saved or OS‐pref mode
 function getInitialMode() {
   if (typeof window !== 'undefined') {
     try {
       const m = localStorage.getItem('mode');
-      if (m==='light'||m==='dark') return m;
+      if (m === 'light' || m === 'dark') return m;
     } catch {}
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return 'dark';
@@ -62,13 +62,10 @@ function getInitialMode() {
 
 export default function App() {
   const [showInstructions, setShowInstructions] = useState(false);
-  const [showContact, setShowContact] = useState(false);
+  const [showContact, setShowContact]           = useState(false);
 
   // ─── Dark/Light Theme Toggle ───────────────────────────────────────────────
-  // 1) detect OS preference
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
-  // 2) initialize from localStorage or fall back to OS
   const [mode, setMode] = useState(() => {
     let stored;
     try {
@@ -80,18 +77,26 @@ export default function App() {
     return prefersDarkMode ? 'dark' : 'light';
   });
 
+  // ─── Multi‐team FILTER state ─────────────────────────────────────────────────
+  // 0 = off, 1 = show missing, 2 = show obtained
+  const [filters, setFilters] = useState(() =>
+    teams.reduce((acc, t) => { acc[t.id] = 0; return acc; }, {})
+  );
+  const handleFilter = useCallback(teamId => {
+    setFilters(prev => ({
+      ...prev,
+      [teamId]: (prev[teamId] + 1) % 3
+    }));
+  }, []);
+
   // ─── Claims Data (hoisted) ─────────────────────────────────────────────────
-  // build your API_URL once
   const hostname = window.location.hostname;
-  const API_URL = hostname.includes('localhost')
+  const API_URL  = hostname.includes('localhost')
     ? 'http://localhost:5000/api/claims'
     : 'https://bingo.synox.is/api/claims';
   const readOnly = hostname === 'bingo.synox.is';
 
-  // state for all tiles
   const [tiles, setTiles] = useState([]);
-
-  // a) loader
   const loadClaims = useCallback(async () => {
     try {
       const res    = await fetch(API_URL);
@@ -112,18 +117,14 @@ export default function App() {
     }
   }, [API_URL]);
 
-  // b) initial load
   useEffect(() => {
     loadClaims();
   }, [loadClaims]);
 
-  // c) toggle & save a single claim
   const handleToggleClaim = useCallback((tileId, teamId) => {
     setTiles(prev =>
       prev.map(tile => {
         if (tile.id !== tileId) return tile;
-
-        // copy & flip
         const copy = new BingoTile(
           tile.id,
           tile.description,
@@ -132,8 +133,6 @@ export default function App() {
           [...tile.claimedBy]
         );
         copy.toggleTeamClaim(teamId);
-
-        // only POST if changed
         if (
           JSON.stringify(copy.claimedBy) !==
           JSON.stringify(tile.claimedBy)
@@ -153,24 +152,24 @@ export default function App() {
   const lightTheme = useMemo(
     () =>
       createTheme({
-        palette:   { ...lightPalette, mode: 'light' },
-        typography:{ fontFamily: `"Runescape",${lightPalette.text.primary}` },
+        palette:    { ...lightPalette, mode: 'light' },
+        typography: { fontFamily: `"Runescape",${lightPalette.text.primary}` },
       }),
     []
   );
   const darkTheme = useMemo(
     () =>
       createTheme({
-        palette:   { ...lightPalette, ...darkOverrides, mode: 'dark' },
-        typography:{ fontFamily: `"Runescape",${darkOverrides.text.primary}` },
+        palette:    { ...lightPalette, ...darkOverrides, mode: 'dark' },
+        typography: { fontFamily: `"Runescape",${darkOverrides.text.primary}` },
       }),
     []
   );
   const theme = mode === 'light' ? lightTheme : darkTheme;
 
+  // open/close dialogs
   const openInstructions = () => setShowInstructions(true);
   const closeInstructions = () => setShowInstructions(false);
-
   const openContact = () => setShowContact(true);
   const closeContact = () => setShowContact(false);
 
@@ -178,7 +177,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
-      {/* Top-right settings */}
+      {/* Top‐right menu */}
       <Box
         sx={{
           position: 'absolute',
@@ -187,7 +186,6 @@ export default function App() {
           zIndex:   theme => theme.zIndex.appBar,
         }}
       >
-        {/* now passes the real loader */}
         <SettingsMenu
           mode={mode}
           setMode={setMode}
@@ -197,12 +195,15 @@ export default function App() {
         />
       </Box>
 
-      {/* BingoBoard now just renders based on the `tiles` prop */}
+      {/* BingoBoard with 3‐state filters */}
       <BingoBoard
         tiles={tiles}
         onToggleClaim={handleToggleClaim}
         readOnly={readOnly}
+        filters={filters}
+        onFilterTeam={handleFilter}
       />
+
       <InstructionsDialog
         open={showInstructions}
         onClose={closeInstructions}
