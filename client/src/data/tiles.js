@@ -355,7 +355,7 @@ const rawTiles = [
   },
   {
     "id": 60,
-    "text": "Abyssal Sire: Abyssal bludgeon (kaikki osat)",
+    "text": "Abyssal Sire: Abyssal bludgeon (3 osaa)",
     "points": 4,
     "image": "/images/60.png"
   },
@@ -379,7 +379,7 @@ const rawTiles = [
   },
   {
     "id": 64,
-    "text": "Araxxor: Noxious halberd (kaikki osat)",
+    "text": "Araxxor: Noxious halberd (3 osaa)",
     "points": 5,
     "image": "/images/64.png"
   },
@@ -391,7 +391,7 @@ const rawTiles = [
   },
   {
     "id": 66,
-    "text": "1x purple raidista = 1p",
+    "text": "1 uniikki purple = 1p",
     "points": 1,
     "image": "/images/66.png"
   },
@@ -535,7 +535,7 @@ const rawTiles = [
   },
   {
     "id": 90,
-    "text": "Gnome restaurant: Gnome goggles, scarf TAI Mint cake",
+    "text": "Wolt minipeli: Gnome goggles, scarf TAI Mint cake",
     "points": 2,
     "image": "/images/90.png"
   },
@@ -763,7 +763,7 @@ const rawTiles = [
   },
   {
     "id": 128,
-    "text": "275 kyyneltä",
+    "text": "225 kyyneltä",
     "points": 1,
     "image": "/images/128.png"
   },
