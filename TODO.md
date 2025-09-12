@@ -1,6 +1,6 @@
 # TODO
 
-- refactor theme from App.js
+- ~~refactor theme from App.js~~
 - implement Search Dialog
 - change teams box to remove rounded corners
 - plan new features:
