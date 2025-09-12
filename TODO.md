@@ -2,7 +2,7 @@
 
 - ~~refactor theme from App.js~~
 - ~~implement Search Dialog~~
-- change teams box to remove rounded corners
+- ~~change teams box to remove rounded corners~~
 - eslint + prettier
 - plan new features:
     - team sorting by point totals

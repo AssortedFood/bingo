@@ -133,6 +133,7 @@ export default function BingoBoard({
       {/* TEAM BADGES (3‐state toggles, full‐colour only) */}
       <Paper
         elevation={3}
+        square
         sx={{
           p:            3,
           mb:           3,
@@ -140,7 +141,6 @@ export default function BingoBoard({
           bgcolor:      'background.default',
           border:       1,
           borderColor:  'body.border',
-          borderRadius: 2
         }}
       >
         <Box
