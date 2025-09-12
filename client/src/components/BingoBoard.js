@@ -13,11 +13,11 @@ import {
 import { styled } from '@mui/system';
 import teams from '../data/teams';
 
-// responsive sizing
+// responsive sizing constants
 const MIN_TILE_WIDTH = 300;
 const SCALE = 0.9;
 
-// styled components
+// styled container for each tile
 const GridItem = styled(Card)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -26,35 +26,46 @@ const GridItem = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.body.background,
 }));
 
+// styled badge for each team
 const TeamBox = styled(Box, {
   shouldForwardProp: prop =>
     prop !== 'teamColor' &&
     prop !== 'isActive' &&
     prop !== 'readOnly'
 })(({ theme, teamColor, isActive, readOnly }) => ({
-  width:   20,
-  height:  20,
-  margin: '0 5px',
+  width:           20,
+  height:          20,
+  margin:         '0 5px',
   backgroundColor: isActive ? teamColor : theme.palette.body.main,
-  border: `1px solid ${teamColor}`,
-  cursor: readOnly ? 'default' : 'pointer',
-  opacity: readOnly ? 0.6 : 1
+  border:          `1px solid ${teamColor}`,
+  cursor:          readOnly ? 'default' : 'pointer',
+  opacity:         readOnly ? 0.6 : 1
 }));
 
-// tile renderer
+// single tile component
 const BingoTileComponent = ({ tile, readOnly, onToggleClaim }) => (
   <GridItem>
-    <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+    <CardContent sx={{
+      flexGrow:        1,
+      display:         'flex',
+      flexDirection:   'column'
+    }}>
       <CardMedia
         component="img"
         image={tile.image}
         alt={tile.description}
-        sx={{ height: 100, width: '100%', objectFit: 'contain', mb: 1 }}
+        sx={{
+          height:      100,
+          width:       '100%',
+          objectFit:   'contain',
+          mb:          1
+        }}
       />
       <Typography variant="body1" align="center">
         {tile.description}
       </Typography>
     </CardContent>
+
     <Box sx={{ px: 2, pb: 2, pr: 2, mt: 'auto' }}>
       <Typography variant="body2" align="center">
         Points: {tile.points}
@@ -66,7 +77,9 @@ const BingoTileComponent = ({ tile, readOnly, onToggleClaim }) => (
             teamColor={team.color}
             isActive={tile.isClaimedByTeam(team.id)}
             readOnly={readOnly}
-            onClick={() => !readOnly && onToggleClaim(tile.id, team.id)}
+            onClick={() =>
+              !readOnly && onToggleClaim(tile.id, team.id)
+            }
           />
         ))}
       </Box>
@@ -75,46 +88,31 @@ const BingoTileComponent = ({ tile, readOnly, onToggleClaim }) => (
 );
 
 /**
- * BingoBoard supports 3‐state filters per team:
- *   filters = { [teamId]: 0|1|2 }
- *     0 = off
- *     1 = missing only
- *     2 = obtained only
- *
- * Badges are always full‐colour; we rely on the label text
- * to communicate the mode.
+ * BingoBoard props:
+ *   tiles          – list of BingoTile to display
+ *   teamPoints     – [number] static array of points per team
+ *   onToggleClaim  – callback(tileId, teamId)
+ *   readOnly       – disable interactions
+ *   filters        – { [teamId]: 0|1|2 } (3‐state filters)
+ *   onFilterTeam   – toggle a team’s filter mode
  */
 export default function BingoBoard({
   tiles,
+  teamPoints,     // <-- now comes in from parent
   onToggleClaim,
   readOnly,
-  filters,      // { teamId: mode }
-  onFilterTeam  // toggle a team's mode: 0→1→2→0
+  filters,
+  onFilterTeam
 }) {
-  // recompute team points
-  const [teamPoints, setTeamPoints] = useState(
-    Array(teams.length).fill(0)
-  );
-  useEffect(() => {
-    const pts = Array(teams.length).fill(0);
-    tiles.forEach(tile =>
-      tile.claimedBy.forEach(id => {
-        const idx = teams.findIndex(t => t.id === id);
-        if (idx > -1) pts[idx] += tile.points;
-      })
-    );
-    setTeamPoints(pts);
-  }, [tiles]);
-
   // responsive tile sizing
   const [tileWidth, setTileWidth] = useState(MIN_TILE_WIDTH);
   useEffect(() => {
-    const recalc = () => {
+    function recalc() {
       const vw   = window.innerWidth;
       const cols = Math.max(Math.floor(vw / MIN_TILE_WIDTH), 1);
       const w    = (vw / cols) * SCALE;
       setTileWidth(w);
-    };
+    }
     recalc();
     window.addEventListener('resize', recalc);
     return () => window.removeEventListener('resize', recalc);
@@ -124,15 +122,8 @@ export default function BingoBoard({
   const visibleTiles = tiles.filter(tile =>
     Object.entries(filters).every(([teamIdStr, mode]) => {
       const teamId = Number(teamIdStr);
-      if (mode === 1) {
-        // missing only: tile NOT claimed by this team
-        return !tile.isClaimedByTeam(teamId);
-      }
-      if (mode === 2) {
-        // obtained only: tile IS claimed by this team
-        return tile.isClaimedByTeam(teamId);
-      }
-      // mode 0: no constraint
+      if (mode === 1) return !tile.isClaimedByTeam(teamId);
+      if (mode === 2) return  tile.isClaimedByTeam(teamId);
       return true;
     })
   );
@@ -143,13 +134,13 @@ export default function BingoBoard({
       <Paper
         elevation={3}
         sx={{
-          p: 3,
-          mb: 3,
-          textAlign: 'center',
-          bgcolor: 'background.default',
-          border: 1,
-          borderColor: 'body.border',
-          borderRadius: 2,
+          p:            3,
+          mb:           3,
+          textAlign:    'center',
+          bgcolor:      'background.default',
+          border:       1,
+          borderColor:  'body.border',
+          borderRadius: 2
         }}
       >
         <Box
@@ -159,8 +150,8 @@ export default function BingoBoard({
           sx={{ flexWrap: 'wrap', gap: 2 }}
         >
           {teams.map((team, idx) => {
-            const mode = filters[team.id] || 0; // 0|1|2
-            let label = '';
+            const mode  = filters[team.id] || 0;
+            let   label = '';
             if (mode === 1) label = 'Missing';
             if (mode === 2) label = 'Obtained';
 
@@ -180,14 +171,17 @@ export default function BingoBoard({
                   backgroundColor: team.color
                 }}
               >
-                <Typography variant="h6" sx={{ mb: .5}}>
+                <Typography variant="h6" sx={{ mb: 0.5 }}>
                   {team.name}
                 </Typography>
                 <Typography variant="body1">
                   Points: {teamPoints[idx]}
                 </Typography>
                 {label && (
-                  <Typography variant="caption" sx={{ mt: .5}}>
+                  <Typography
+                    variant="caption"
+                    sx={{ mt: 0.5 }}
+                  >
                     {label}
                   </Typography>
                 )}
@@ -206,7 +200,10 @@ export default function BingoBoard({
           display:        'flex',
           flexWrap:       'wrap',
           justifyContent: 'center',
-          pl: 2, pb: 2, pr: .5, gap: 2
+          pl: 2,
+          pb: 2,
+          pr: 0.5,
+          gap: 2
         }}
       >
         {visibleTiles.map(tile => (

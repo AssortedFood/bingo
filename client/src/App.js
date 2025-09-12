@@ -9,13 +9,16 @@ import { Box }                        from '@mui/material';
 import useMediaQuery                  from '@mui/material/useMediaQuery';
 import CssBaseline                    from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import SettingsMenu                   from './components/SettingsMenu';
-import InstructionsDialog             from './components/InstructionsDialog';
-import ContactDialog                  from './components/ContactDialog';
-import BingoBoard                     from './components/BingoBoard';
-import tileData                       from './data/tiles';
-import BingoTile                      from './models/BingoTile';
-import teams                          from './data/teams';
+
+import SettingsMenu       from './components/SettingsMenu';
+import InstructionsDialog from './components/InstructionsDialog';
+import ContactDialog      from './components/ContactDialog';
+import SearchDialog       from './components/SearchDialog';
+import BingoBoard         from './components/BingoBoard';
+
+import tileData           from './data/tiles';
+import BingoTile          from './models/BingoTile';
+import teams              from './data/teams';
 
 // 1) central “light” palette:
 const lightPalette = {
@@ -61,10 +64,11 @@ function getInitialMode() {
 }
 
 export default function App() {
+  // instructions & contact dialogs
   const [showInstructions, setShowInstructions] = useState(false);
   const [showContact, setShowContact]           = useState(false);
 
-  // ─── Dark/Light Theme Toggle ───────────────────────────────────────────────
+  // dark/light toggle
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
   const [mode, setMode] = useState(() => {
     let stored;
@@ -77,19 +81,54 @@ export default function App() {
     return prefersDarkMode ? 'dark' : 'light';
   });
 
-  // ─── Multi‐team FILTER state ─────────────────────────────────────────────────
-  // 0 = off, 1 = show missing, 2 = show obtained
+  // search (spotlight)
+  const [searchOpen, setSearchOpen]   = useState(false);
+  const [searchText, setSearchText]   = useState('');
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (searchOpen) return;
+      const fe = document.activeElement;
+      if (
+        fe &&
+        (fe.tagName === 'INPUT' ||
+         fe.tagName === 'TEXTAREA' ||
+         fe.isContentEditable)
+      ) return;
+      if (/^[a-z0-9]$/i.test(e.key)) {
+        setSearchOpen(true);
+        setSearchText(e.key);
+        e.preventDefault();
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [searchOpen]);
+
+  // close the spotlight if the user stops typing for 1s
+  useEffect(() => {
+    if (!searchOpen) return;
+    // when searchText changes, reset the timer
+    const handle = setTimeout(() => {
+      setSearchOpen(false);
+      setSearchText('');
+    }, 1000);
+
+    // clear on cleanup or new keystroke
+    return () => clearTimeout(handle);
+  }, [searchText, searchOpen]);
+
+  // 3-state team filters
   const [filters, setFilters] = useState(() =>
-    teams.reduce((acc, t) => { acc[t.id] = 0; return acc; }, {})
+    teams.reduce((acc,t) => { acc[t.id]=0; return acc }, {})
   );
   const handleFilter = useCallback(teamId => {
     setFilters(prev => ({
       ...prev,
-      [teamId]: (prev[teamId] + 1) % 3
+      [teamId]: (prev[teamId]+1) % 3
     }));
   }, []);
 
-  // ─── Claims Data (hoisted) ─────────────────────────────────────────────────
+  // claims & tiles
   const hostname = window.location.hostname;
   const API_URL  = hostname.includes('localhost')
     ? 'http://localhost:5000/api/claims'
@@ -125,25 +164,25 @@ export default function App() {
     setTiles(prev =>
       prev.map(tile => {
         if (tile.id !== tileId) return tile;
-        const copy = new BingoTile(
+      const copy = new BingoTile(
           tile.id,
           tile.description,
           tile.image,
           tile.points,
-          [...tile.claimedBy]
-        );
-        copy.toggleTeamClaim(teamId);
-        if (
+        [...tile.claimedBy]
+      );
+      copy.toggleTeamClaim(teamId);
+      if (
           JSON.stringify(copy.claimedBy) !==
-          JSON.stringify(tile.claimedBy)
-        ) {
+        JSON.stringify(tile.claimedBy)
+      ) {
           fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(copy),
-          }).catch(console.error);
-        }
-        return copy;
+        }).catch(console.error);
+      }
+      return copy;
       })
     );
   }, [API_URL]);
@@ -151,7 +190,7 @@ export default function App() {
   // ─── MUI THEME SETUP ────────────────────────────────────────────────────────
   const lightTheme = useMemo(
     () =>
-      createTheme({
+    createTheme({
         palette:    { ...lightPalette, mode: 'light' },
         typography: { fontFamily: `"Runescape",${lightPalette.text.primary}` },
       }),
@@ -159,7 +198,7 @@ export default function App() {
   );
   const darkTheme = useMemo(
     () =>
-      createTheme({
+    createTheme({
         palette:    { ...lightPalette, ...darkOverrides, mode: 'dark' },
         typography: { fontFamily: `"Runescape",${darkOverrides.text.primary}` },
       }),
@@ -167,23 +206,66 @@ export default function App() {
   );
   const theme = mode === 'light' ? lightTheme : darkTheme;
 
-  // open/close dialogs
-  const openInstructions = () => setShowInstructions(true);
-  const closeInstructions = () => setShowInstructions(false);
-  const openContact = () => setShowContact(true);
-  const closeContact = () => setShowContact(false);
+  // instructions/contact
+  const openInstructions  = ()=>setShowInstructions(true);
+  const closeInstructions = ()=>setShowInstructions(false);
+  const openContact       = ()=>setShowContact(true);
+  const closeContact      = ()=>setShowContact(false);
+
+  // first apply team filters...
+  const visibleTiles = tiles.filter(tile =>
+    Object.entries(filters).every(([teamIdStr,mode])=>{
+      const teamId = Number(teamIdStr);
+      if (mode===1) return !tile.isClaimedByTeam(teamId);
+      if (mode===2) return  tile.isClaimedByTeam(teamId);
+      return true;
+    })
+  );
+
+  // ...then apply search filter
+  const query = searchText.trim().toLowerCase();
+  const finalTiles = query
+    ? visibleTiles.filter(tile =>
+        tile.description.toLowerCase().includes(query)
+      )
+    : visibleTiles;
+
+  // static points per team, based on the full tile set
+  const teamPoints = useMemo(() => {
+    const pts = Array(teams.length).fill(0);
+    tiles.forEach(tile => {
+      tile.claimedBy.forEach(id => {
+        const idx = teams.findIndex(t => t.id === id);
+        if (idx >= 0) {
+          pts[idx] += tile.points;
+        }
+      });
+    });
+    return pts;
+  }, [tiles]);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
-      {/* Top‐right menu */}
+      {/* spotlight search */}
+      <SearchDialog
+        open={searchOpen}
+        value={searchText}
+        onChange={setSearchText}
+        onClose={()=>{
+          setSearchOpen(false);
+          setSearchText('');
+        }}
+      />
+
+      {/* settings menu */}
       <Box
         sx={{
-          position: 'absolute',
-          top:      theme => theme.spacing(1),
-          right:    theme => theme.spacing(1),
-          zIndex:   theme => theme.zIndex.appBar,
+          position:'absolute',
+          top:     theme=>theme.spacing(1),
+          right:   theme=>theme.spacing(1),
+          zIndex:  theme=>theme.zIndex.appBar
         }}
       >
         <SettingsMenu
@@ -195,15 +277,17 @@ export default function App() {
         />
       </Box>
 
-      {/* BingoBoard with 3‐state filters */}
+      {/* bingo grid */}
       <BingoBoard
-        tiles={tiles}
+        tiles={finalTiles}
+        teamPoints={teamPoints}
         onToggleClaim={handleToggleClaim}
         readOnly={readOnly}
         filters={filters}
         onFilterTeam={handleFilter}
       />
 
+      {/* dialogs */}
       <InstructionsDialog
         open={showInstructions}
         onClose={closeInstructions}
