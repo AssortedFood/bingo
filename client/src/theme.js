@@ -1,19 +1,19 @@
 // src/theme.js
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles/index.js';
 import { useMemo } from 'react';
 
 // 1) your “base” light palette
 export const lightPalette = {
   background: { default: '#c0a886', paper: '#e2dbc8' },
   body: {
-    main:       '#e2dbc8',
-    light:      '#d8ccb4',
-    mid:        '#d0bd97',
-    dark:       '#b8a282',
-    border:     '#94866d',
+    main: '#e2dbc8',
+    light: '#d8ccb4',
+    mid: '#d0bd97',
+    dark: '#b8a282',
+    border: '#94866d',
     background: '#c0a886',
   },
-  text:    { primary: '#000', secondary: '#777' },
+  text: { primary: '#000', secondary: '#777' },
   divider: '#c0a886',
 };
 
@@ -21,14 +21,14 @@ export const lightPalette = {
 export const darkOverrides = {
   background: { default: '#605443', paper: '#605443' },
   body: {
-    main:       '#b2a999',
-    light:      '#d8ccb4',
-    mid:        '#d0bd97',
-    dark:       '#b8a282',
-    border:     '#5e5443',
+    main: '#b2a999',
+    light: '#d8ccb4',
+    mid: '#d0bd97',
+    dark: '#b8a282',
+    border: '#5e5443',
     background: '#605443',
   },
-  text:    { primary: '#000', secondary: '#434343' },
+  text: { primary: '#000', secondary: '#434343' },
   divider: '#605443',
 };
 
@@ -40,7 +40,10 @@ export function getInitialMode() {
       if (stored === 'light' || stored === 'dark') {
         return stored;
       }
-    } catch {} 
+    } catch (error) {
+      // Couldn’t read from localStorage (e.g. in private mode),
+      // fall back to system preference or default.
+    }
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return 'dark';
     }

@@ -1,19 +1,16 @@
 // src/components/SearchDialog.js
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Dialog, TextField, Box } from '@mui/material';
 import { styled } from '@mui/system';
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialog-paper': {
     padding: theme.spacing(2),
-    backgroundColor:
-      theme.palette.mode === 'dark'
-        ? 'rgba(50,50,50,0.4)'
-        : 'rgba(255,255,255,0.4)',
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(50,50,50,0.4)' : 'rgba(255,255,255,0.4)',
     borderRadius: theme.shape.borderRadius,
     minWidth: 300,
     boxShadow: 'none',
-    outline:   'none',
+    outline: 'none',
     // kill the default outline on the OutlinedInput
     '& .MuiOutlinedInput-notchedOutline': {
       borderColor: 'transparent !important',
@@ -23,10 +20,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
     },
   },
   '& .MuiBackdrop-root': {
-    backgroundColor:
-      theme.palette.mode === 'dark'
-        ? 'rgba(0,0,0,0.6)'
-        : 'rgba(0,0,0,0.4)',
+    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.4)',
   },
 }));
 
@@ -50,7 +44,7 @@ export default function SearchDialog({ open, value, onChange, onClose }) {
       keepMounted
       TransitionProps={{
         unmountOnExit: false,
-        onEntering:    handleOnEntering
+        onEntering: handleOnEntering,
       }}
       disableEnforceFocus
       BackdropProps={{}}
@@ -62,8 +56,8 @@ export default function SearchDialog({ open, value, onChange, onClose }) {
           variant="outlined"
           placeholder="Search tiles…"
           value={value}
-          onChange={e => onChange(e.target.value)}
-          onKeyDown={e => {
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={(e) => {
             if (e.key === 'Enter') {
               onClose();
             }
@@ -71,11 +65,11 @@ export default function SearchDialog({ open, value, onChange, onClose }) {
           slotProps={{
             input: {
               style: {
-                fontSize:        '1.25rem',
+                fontSize: '1.25rem',
                 backgroundColor: 'transparent',
-                border:          0
-              }
-            }
+                border: 0,
+              },
+            },
           }}
         />
       </Box>

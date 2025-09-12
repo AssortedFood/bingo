@@ -10,11 +10,11 @@ class BingoTile {
 
   toggleTeamClaim(teamId) {
     if (this.claimedBy.includes(teamId)) {
-      this.claimedBy = this.claimedBy.filter(id => id !== teamId);
-      console.log(`❌ Team ${teamId} unclaimed Tile ${this.id}`);
+      this.claimedBy = this.claimedBy.filter((id) => id !== teamId);
+      // console.log(`❌ Team ${teamId} unclaimed Tile ${this.id}`);
     } else {
       this.claimedBy.push(teamId);
-      console.log(`✅ Team ${teamId} claimed Tile ${this.id}`);
+      // console.log(`✅ Team ${teamId} claimed Tile ${this.id}`);
     }
   }
 
@@ -32,7 +32,7 @@ class BingoTile {
       description: this.description,
       image: this.image,
       points: this.points,
-      claimedBy: this.claimedBy
+      claimedBy: this.claimedBy,
     };
   }
 }

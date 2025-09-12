@@ -6,23 +6,17 @@ import {
   Typography,
   Box,
   IconButton,
-  Divider
+  Divider,
 } from '@mui/material';
 import CloseIconImg from '../assets/icons/close.png';
 
 export default function ContactDialog({ open, onClose }) {
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      fullWidth
-      maxWidth="sm"
-      disableScrollLock
-    >
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" disableScrollLock>
       <DialogTitle
         sx={{
           fontFamily: '"Runescape", sans-serif',
-          position:   'relative'
+          position: 'relative',
         }}
       >
         Contact Us
@@ -31,10 +25,7 @@ export default function ContactDialog({ open, onClose }) {
           onClick={onClose}
           sx={{ position: 'absolute', right: 8, top: 8 }}
         >
-          <img
-            src={CloseIconImg}
-            alt="Close"
-          />
+          <img src={CloseIconImg} alt="Close" />
         </IconButton>
       </DialogTitle>
 
@@ -44,17 +35,17 @@ export default function ContactDialog({ open, onClose }) {
           fontFamily: '"Runescape", sans-serif',
           px: 3,
           py: 2,
-          color: 'text.primary'
+          color: 'text.primary',
         }}
       >
         <Typography variant="body1" paragraph>
-          For updates or bug‐fixes, please reach out to{' '}
-          <strong>@bullmax1</strong> on Discord.
+          For updates or bug‐fixes, please reach out to <strong>@bullmax1</strong> on Discord.
         </Typography>
 
         <Typography variant="body1" paragraph>
-          Interested in using this bingo board for your own clan?<br />
-          Contact{' '}<strong>@bullmax1</strong> on Discord for more information.
+          Interested in using this bingo board for your own clan?
+          <br />
+          Contact <strong>@bullmax1</strong> on Discord for more information.
         </Typography>
 
         <Divider sx={{ my: 2 }} />

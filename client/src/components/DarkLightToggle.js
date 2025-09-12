@@ -1,14 +1,9 @@
 // src/components/DarkLightToggle.js
-import React from 'react';
-import {
-  MenuItem,
-  ListItemIcon,
-  ListItemText
-} from '@mui/material';
+import { MenuItem, ListItemIcon, ListItemText } from '@mui/material';
 
 // import gives you a URL string
 import LightModeImg from '../assets/icons/light-mode.png';
-import DarkModeImg  from '../assets/icons/dark-mode.png';
+import DarkModeImg from '../assets/icons/dark-mode.png';
 
 /**
  * Props:
@@ -21,33 +16,31 @@ export default function DarkLightToggle({
   mode,
   setMode,
   staysOpen = true,
-  toggleClose = () => {}
+  toggleClose = () => {},
 }) {
   const handleClick = () => {
-    setMode(prev => {
+    setMode((prev) => {
       const next = prev === 'light' ? 'dark' : 'light';
-      try { localStorage.setItem('mode', next) } catch {}
+      try {
+        localStorage.setItem('mode', next);
+      } catch (err) {
+        // ignore failures (e.g. private mode)
+        console.warn('DarkLightToggle: failed to save theme mode', err);
+      }
       return next;
     });
     if (!staysOpen) toggleClose();
   };
 
   // pick the correct URL
-  const iconSrc = mode === 'light'
-    ? DarkModeImg
-    : LightModeImg;
+  const iconSrc = mode === 'light' ? DarkModeImg : LightModeImg;
 
-  const label = mode === 'light'
-    ? 'Dark Mode'
-    : 'Light Mode';
+  const label = mode === 'light' ? 'Dark Mode' : 'Light Mode';
 
   return (
     <MenuItem onClick={handleClick}>
       <ListItemIcon>
-        <img
-          src={iconSrc}
-          alt={label}
-        />
+        <img src={iconSrc} alt={label} />
       </ListItemIcon>
       <ListItemText primary={label} />
     </MenuItem>

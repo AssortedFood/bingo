@@ -1,27 +1,15 @@
 // src/components/SettingsMenu.js
 import React from 'react';
-import {
-  IconButton,
-  Menu,
-  MenuItem,
-  ListItemIcon,
-  ListItemText
-} from '@mui/material';
-import SettingsIconImg    from '../assets/icons/settings.png';
-import DarkLightToggle    from './DarkLightToggle';
-import AutoRefreshToggle  from './AutoRefreshToggle';
+import { IconButton, Menu, MenuItem, ListItemIcon, ListItemText } from '@mui/material';
+import SettingsIconImg from '../assets/icons/settings.png';
+import DarkLightToggle from './DarkLightToggle.js';
+import AutoRefreshToggle from './AutoRefreshToggle.js';
 import InstructionsIcon from '../assets/icons/instructions.png';
 import ContactIcon from '../assets/icons/bond.png';
 
-export default function SettingsMenu({
-  mode,
-  setMode,
-  onRefresh,
-  onInstructions,
-  onContact
-}) {
+export default function SettingsMenu({ mode, setMode, onRefresh, onInstructions, onContact }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const openMenu  = e => setAnchorEl(e.currentTarget);
+  const openMenu = (e) => setAnchorEl(e.currentTarget);
   const closeMenu = () => setAnchorEl(null);
 
   // centralize your interval here:
@@ -29,14 +17,9 @@ export default function SettingsMenu({
 
   return (
     <>
-     <IconButton size="small" onClick={openMenu}>
-       <img 
-         src={SettingsIconImg} 
-         alt="Settings" 
-         width={24} 
-         height={24}
-       />
-     </IconButton>
+      <IconButton size="small" onClick={openMenu}>
+        <img src={SettingsIconImg} alt="Settings" width={24} height={24} />
+      </IconButton>
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
@@ -45,12 +28,7 @@ export default function SettingsMenu({
         disableScrollLock
         PaperProps={{ sx: { minWidth: 180 } }}
       >
-        <DarkLightToggle
-          mode={mode}
-          setMode={setMode}
-          staysOpen={true}
-          toggleClose={closeMenu}
-        />
+        <DarkLightToggle mode={mode} setMode={setMode} staysOpen={true} toggleClose={closeMenu} />
 
         <AutoRefreshToggle
           onRefresh={onRefresh}
@@ -69,17 +47,17 @@ export default function SettingsMenu({
           </ListItemIcon>
           <ListItemText primary="Instructions" />
         </MenuItem>
-          <MenuItem
-            onClick={() => {
-              onContact();
-              closeMenu();
-            }}
-          >
-            <ListItemIcon>
-              <img src={ContactIcon} alt="Contact us" width={24} height={24} />
-            </ListItemIcon>
-            <ListItemText primary="Contact us" />
-          </MenuItem>
+        <MenuItem
+          onClick={() => {
+            onContact();
+            closeMenu();
+          }}
+        >
+          <ListItemIcon>
+            <img src={ContactIcon} alt="Contact us" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Contact us" />
+        </MenuItem>
       </Menu>
     </>
   );

@@ -1,19 +1,15 @@
 // src/components/AutoRefreshToggle.js
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  MenuItem,
-  ListItemIcon,
-  ListItemText
-} from '@mui/material';
-import RefreshIcon  from '../assets/icons/refresh.png';
+import { useState, useEffect, useRef } from 'react';
+import { MenuItem, ListItemIcon, ListItemText } from '@mui/material';
+import RefreshIcon from '../assets/icons/refresh.png';
 
 export default function AutoRefreshToggle({
-  onRefresh,    // now your App’s loadClaims()
+  onRefresh, // now your App’s loadClaims()
   interval,
   staysOpen = true,
-  toggleClose = () => {}
+  toggleClose = () => {},
 }) {
-  const [enabled, setEnabled]     = useState(false);
+  const [enabled, setEnabled] = useState(false);
   const [countdown, setCountdown] = useState(interval);
 
   // keep a ref to the latest onRefresh so that our interval
@@ -49,25 +45,16 @@ export default function AutoRefreshToggle({
   }, [enabled, interval]);
 
   const handleClick = () => {
-    setEnabled(e => !e);
+    setEnabled((e) => !e);
     if (!staysOpen) toggleClose();
   };
 
   return (
     <MenuItem onClick={handleClick}>
       <ListItemIcon>
-        <img
-          src={RefreshIcon}
-          alt="Refresh"
-        />
+        <img src={RefreshIcon} alt="Refresh" />
       </ListItemIcon>
-      <ListItemText
-        primary={
-          enabled
-            ? `Auto-refresh (${countdown}s)`
-            : 'Auto-refresh'
-        }
-      />
+      <ListItemText primary={enabled ? `Auto-refresh (${countdown}s)` : 'Auto-refresh'} />
     </MenuItem>
   );
 }

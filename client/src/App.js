@@ -1,33 +1,28 @@
 // src/App.js
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import {
-  Box,
-  useMediaQuery,
-  CssBaseline,
-  ThemeProvider
-} from '@mui/material';
+import { Box, useMediaQuery, CssBaseline, ThemeProvider } from '@mui/material';
 
-import useAppTheme, { getInitialMode } from './theme';
+import useAppTheme, { getInitialMode } from './theme.js';
 
-import SettingsMenu       from './components/SettingsMenu';
-import InstructionsDialog from './components/InstructionsDialog';
-import ContactDialog      from './components/ContactDialog';
-import SearchDialog       from './components/SearchDialog';
-import BingoBoard         from './components/BingoBoard';
+import SettingsMenu from './components/SettingsMenu.js';
+import InstructionsDialog from './components/InstructionsDialog.js';
+import ContactDialog from './components/ContactDialog.js';
+import SearchDialog from './components/SearchDialog.js';
+import BingoBoard from './components/BingoBoard.js';
 
-import tileData   from './data/tiles';
-import BingoTile  from './models/BingoTile';
-import teams      from './data/teams';
+import tileData from './data/tiles.js';
+import BingoTile from './models/BingoTile.js';
+import teams from './data/teams.js';
 
 export default function App() {
   // ─── DIALOGS ────────────────────────────────────────────────────────────────
   const [showInstructions, setShowInstructions] = useState(false);
-  const [showContact,      setShowContact]      = useState(false);
+  const [showContact, setShowContact] = useState(false);
 
-  const openInstructions  = () => setShowInstructions(true);
+  const openInstructions = () => setShowInstructions(true);
   const closeInstructions = () => setShowInstructions(false);
-  const openContact       = () => setShowContact(true);
-  const closeContact      = () => setShowContact(false);
+  const openContact = () => setShowContact(true);
+  const closeContact = () => setShowContact(false);
 
   // ─── THEME MODE TOGGLE ──────────────────────────────────────────────────────
   // seed from localStorage or OS
@@ -35,8 +30,7 @@ export default function App() {
   const [mode, setMode] = useState(() => {
     const init = getInitialMode();
     // if you want to fall back to OS when stored is missing:
-    // return (init === 'system' ? (prefersDarkMode?'dark':'light') : init);
-    return init;
+    return init === 'system' ? (prefersDarkMode ? 'dark' : 'light') : init;
   });
   const theme = useAppTheme(mode);
 
@@ -47,12 +41,8 @@ export default function App() {
     function handleKeyDown(e) {
       if (searchOpen) return;
       const fe = document.activeElement;
-      if (
-        fe &&
-        (fe.tagName === 'INPUT' ||
-         fe.tagName === 'TEXTAREA' ||
-         fe.isContentEditable)
-      ) return;
+      if (fe && (fe.tagName === 'INPUT' || fe.tagName === 'TEXTAREA' || fe.isContentEditable))
+        return;
       if (/^[a-z0-9]$/i.test(e.key)) {
         setSearchOpen(true);
         setSearchText(e.key);
@@ -74,7 +64,7 @@ export default function App() {
     return () => {
       window.removeEventListener('keydown', handleGlobalKeyDown);
     };
-  }, []);  // run once on mount
+  }, []); // run once on mount
 
   useEffect(() => {
     if (!searchOpen) return;
@@ -85,19 +75,19 @@ export default function App() {
   }, [searchText, searchOpen]);
 
   // ─── TEAM FILTERS ───────────────────────────────────────────────────────────
-  const [filters, setFilters] = useState(
-    () => teams.reduce((acc, t) => ({ ...acc, [t.id]: 0 }), {})
+  const [filters, setFilters] = useState(() =>
+    teams.reduce((acc, t) => ({ ...acc, [t.id]: 0 }), {}),
   );
-  const handleFilter = useCallback(teamId => {
-    setFilters(prev => ({
+  const handleFilter = useCallback((teamId) => {
+    setFilters((prev) => ({
       ...prev,
-      [teamId]: (prev[teamId] + 1) % 3
+      [teamId]: (prev[teamId] + 1) % 3,
     }));
   }, []);
 
   // ─── CLAIMS & TILES ─────────────────────────────────────────────────────────
   const hostname = window.location.hostname;
-  const API_URL  = hostname.includes('localhost')
+  const API_URL = hostname.includes('localhost')
     ? 'http://localhost:5000/api/claims'
     : 'https://bingo.synox.is/api/claims';
   const readOnly = hostname === 'bingo.synox.is';
@@ -105,13 +95,16 @@ export default function App() {
   const [tiles, setTiles] = useState([]);
   const loadClaims = useCallback(async () => {
     try {
-      const res    = await fetch(API_URL);
+      const res = await fetch(API_URL);
       const claims = await res.json();
-      const updated = tileData.map(data => {
-        const found = claims.find(c => c.id === data.id);
+      const updated = tileData.map((data) => {
+        const found = claims.find((c) => c.id === data.id);
         return new BingoTile(
-          data.id, data.text, data.image, data.points,
-          found ? found.claimedBy : []
+          data.id,
+          data.text,
+          data.image,
+          data.points,
+          found ? found.claimedBy : [],
         );
       });
       setTiles(updated);
@@ -124,55 +117,49 @@ export default function App() {
     loadClaims();
   }, [loadClaims]);
 
-  const handleToggleClaim = useCallback((tileId, teamId) => {
-    setTiles(prev =>
-      prev.map(tile => {
-        if (tile.id !== tileId) return tile;
-        const copy = new BingoTile(
-          tile.id,
-          tile.description,
-          tile.image,
-          tile.points,
-          [...tile.claimedBy]
-        );
-        copy.toggleTeamClaim(teamId);
-        if (
-          JSON.stringify(copy.claimedBy) !==
-          JSON.stringify(tile.claimedBy)
-        ) {
-          fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(copy)
-          }).catch(console.error);
-        }
-        return copy;
-      })
-    );
-  }, [API_URL]);
+  const handleToggleClaim = useCallback(
+    (tileId, teamId) => {
+      setTiles((prev) =>
+        prev.map((tile) => {
+          if (tile.id !== tileId) return tile;
+          const copy = new BingoTile(tile.id, tile.description, tile.image, tile.points, [
+            ...tile.claimedBy,
+          ]);
+          copy.toggleTeamClaim(teamId);
+          if (JSON.stringify(copy.claimedBy) !== JSON.stringify(tile.claimedBy)) {
+            fetch(API_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(copy),
+            }).catch(console.error);
+          }
+          return copy;
+        }),
+      );
+    },
+    [API_URL],
+  );
 
   // ─── FILTER + SEARCH ────────────────────────────────────────────────────────
-  const visibleTiles = tiles.filter(tile =>
+  const visibleTiles = tiles.filter((tile) =>
     Object.entries(filters).every(([id, mode]) => {
       const tid = Number(id);
       if (mode === 1) return !tile.isClaimedByTeam(tid);
-      if (mode === 2) return  tile.isClaimedByTeam(tid);
+      if (mode === 2) return tile.isClaimedByTeam(tid);
       return true;
-    })
+    }),
   );
   const query = searchText.trim().toLowerCase();
   const finalTiles = query
-    ? visibleTiles.filter(tile =>
-        tile.description.toLowerCase().includes(query)
-      )
+    ? visibleTiles.filter((tile) => tile.description.toLowerCase().includes(query))
     : visibleTiles;
 
   // ─── STATIC POINTS ──────────────────────────────────────────────────────────
   const teamPoints = useMemo(() => {
     const pts = Array(teams.length).fill(0);
-    tiles.forEach(tile => {
-      tile.claimedBy.forEach(id => {
-        const idx = teams.findIndex(t => t.id === id);
+    tiles.forEach((tile) => {
+      tile.claimedBy.forEach((id) => {
+        const idx = teams.findIndex((t) => t.id === id);
         if (idx >= 0) {
           pts[idx] += tile.points;
         }
@@ -190,7 +177,7 @@ export default function App() {
         open={searchOpen}
         value={searchText}
         onChange={setSearchText}
-        onClose={()=>{
+        onClose={() => {
           setSearchOpen(false);
         }}
       />
@@ -199,9 +186,9 @@ export default function App() {
       <Box
         sx={{
           position: 'absolute',
-          top:      theme => theme.spacing(1),
-          right:    theme => theme.spacing(1),
-          zIndex:   theme => theme.zIndex.appBar
+          top: (theme) => theme.spacing(1),
+          right: (theme) => theme.spacing(1),
+          zIndex: (theme) => theme.zIndex.appBar,
         }}
       >
         <SettingsMenu
@@ -224,14 +211,8 @@ export default function App() {
       />
 
       {/* Dialogs */}
-      <InstructionsDialog
-        open={showInstructions}
-        onClose={closeInstructions}
-      />
-      <ContactDialog
-        open={showContact}
-        onClose={closeContact}
-      />
+      <InstructionsDialog open={showInstructions} onClose={closeInstructions} />
+      <ContactDialog open={showContact} onClose={closeContact} />
     </ThemeProvider>
   );
 }
