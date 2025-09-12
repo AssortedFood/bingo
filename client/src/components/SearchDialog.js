@@ -1,63 +1,80 @@
 // src/components/SearchDialog.js
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Dialog, TextField, Box } from '@mui/material';
 import { styled } from '@mui/system';
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialog-paper': {
-    padding:    theme.spacing(2),
-    // semi-transparent so you can see tiles behind
+    padding: theme.spacing(2),
     backgroundColor:
       theme.palette.mode === 'dark'
-        ? 'rgba(18,18,18,0.8)'
-        : 'rgba(255,255,255,0.8)',
+        ? 'rgba(50,50,50,0.4)'
+        : 'rgba(255,255,255,0.4)',
     borderRadius: theme.shape.borderRadius,
-    minWidth:     300
+    minWidth: 300,
+    boxShadow: 'none',
+    outline:   'none',
+    // kill the default outline on the OutlinedInput
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'transparent !important',
+    },
+    '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'transparent !important',
+    },
   },
   '& .MuiBackdrop-root': {
     backgroundColor:
       theme.palette.mode === 'dark'
         ? 'rgba(0,0,0,0.6)'
         : 'rgba(0,0,0,0.4)',
-    // no blur here
-  }
+  },
 }));
 
 export default function SearchDialog({ open, value, onChange, onClose }) {
-  const inputRef = useRef();
+  const inputRef = useRef(null);
 
-  // after open, give the TextField a moment and then autofocus
-  useEffect(() => {
-    if (!open) return;
-    const handle = setTimeout(() => {
-      inputRef.current?.focus();
-      // move cursor to end
-      const v = inputRef.current.value;
-      inputRef.current.setSelectionRange(v.length, v.length);
-    }, 0);
-    return () => clearTimeout(handle);
-  }, [open]);
+  // Focus & move cursor to end when dialog is entering
+  const handleOnEntering = () => {
+    const inp = inputRef.current;
+    if (inp) {
+      inp.focus();
+      const v = inp.value;
+      inp.setSelectionRange(v.length, v.length);
+    }
+  };
 
   return (
     <StyledDialog
       open={open}
-      onClose={() => { onClose(); onChange(''); }}
-      disableEnforceFocus     // allow child to take focus
-      BackdropProps={{}}      // just translucent, no blur
+      onClose={onClose}
+      keepMounted
+      TransitionProps={{
+        unmountOnExit: false,
+        onEntering:    handleOnEntering
+      }}
+      disableEnforceFocus
+      BackdropProps={{}}
     >
       <Box>
         <TextField
           inputRef={inputRef}
-          autoFocus            // built-in autofocus as a fallback
           fullWidth
           variant="outlined"
           placeholder="Search tiles…"
           value={value}
           onChange={e => onChange(e.target.value)}
           onKeyDown={e => {
-            if (e.key === 'Escape') {
+            if (e.key === 'Enter') {
               onClose();
-              onChange('');
+            }
+          }}
+          slotProps={{
+            input: {
+              style: {
+                fontSize:        '1.25rem',
+                backgroundColor: 'transparent',
+                border:          0
+              }
             }
           }}
         />

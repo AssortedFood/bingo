@@ -64,11 +64,23 @@ export default function App() {
   }, [searchOpen]);
 
   useEffect(() => {
+    function handleGlobalKeyDown(e) {
+      if (e.key === 'Escape') {
+        setSearchText('');
+        setSearchOpen(false);
+      }
+    }
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleGlobalKeyDown);
+    };
+  }, []);  // run once on mount
+
+  useEffect(() => {
     if (!searchOpen) return;
     const handle = setTimeout(() => {
       setSearchOpen(false);
-      setSearchText('');
-    }, 1000);
+    }, 1500);
     return () => clearTimeout(handle);
   }, [searchText, searchOpen]);
 
@@ -180,7 +192,6 @@ export default function App() {
         onChange={setSearchText}
         onClose={()=>{
           setSearchOpen(false);
-          setSearchText('');
         }}
       />
 
