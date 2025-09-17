@@ -39,6 +39,10 @@ export default function App() {
   const [searchText, setSearchText] = useState('');
   useEffect(() => {
     function handleKeyDown(e) {
+      // let Ctrl+C, ⌘+R, Alt+Tab, etc. pass through:
+      if (e.ctrlKey || e.metaKey || e.altKey) {
+        return;
+      }
       if (searchOpen) return;
       const fe = document.activeElement;
       if (fe && (fe.tagName === 'INPUT' || fe.tagName === 'TEXTAREA' || fe.isContentEditable))
