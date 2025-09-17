@@ -103,6 +103,7 @@ export default function App() {
           data.id,
           data.text,
           data.image,
+          data.info,
           data.points,
           found ? found.claimedBy : [],
         );
@@ -122,9 +123,14 @@ export default function App() {
       setTiles((prev) =>
         prev.map((tile) => {
           if (tile.id !== tileId) return tile;
-          const copy = new BingoTile(tile.id, tile.description, tile.image, tile.points, [
-            ...tile.claimedBy,
-          ]);
+          const copy = new BingoTile(
+            tile.id,
+            tile.description,
+            tile.image,
+            tile.info,
+            tile.points,
+            [...tile.claimedBy],
+          );
           copy.toggleTeamClaim(teamId);
           if (JSON.stringify(copy.claimedBy) !== JSON.stringify(tile.claimedBy)) {
             fetch(API_URL, {

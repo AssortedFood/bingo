@@ -1,9 +1,10 @@
 // client/src/models/BingoTile.js
 class BingoTile {
-  constructor(id, description, image, points, claimedBy = []) {
+  constructor(id, description, image, info, points, claimedBy = []) {
     this.id = id;
     this.description = description;
     this.image = image;
+    this.info = info;
     this.points = points;
     this.claimedBy = claimedBy; // Array of team IDs
   }
@@ -31,6 +32,7 @@ class BingoTile {
       id: this.id,
       description: this.description,
       image: this.image,
+      info: this.info,
       points: this.points,
       claimedBy: this.claimedBy,
     };

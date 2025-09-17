@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { Box, Grid, Typography, Card, CardContent, CardMedia, Divider, Paper } from '@mui/material';
 import { styled } from '@mui/system';
+import { Tooltip } from '@mui/material';
+import InfoIcon from '../assets/icons/info.png';
 import teams from '../data/teams.js';
 
 // responsive sizing constants
@@ -32,7 +34,25 @@ const TeamBox = styled(Box, {
 
 // single tile component
 const BingoTileComponent = ({ tile, readOnly, onToggleClaim }) => (
-  <GridItem>
+  <GridItem sx={{ position: 'relative' }}>
+    {tile.info && (
+      <Tooltip title={tile.info}>
+        <Box
+          component="img"
+          src={InfoIcon}
+          alt="info"
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            width: 20,
+            height: 20,
+            cursor: 'pointer',
+            zIndex: 1,
+          }}
+        />
+      </Tooltip>
+    )}
     <CardContent
       sx={{
         flexGrow: 1,
