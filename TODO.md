@@ -1,9 +1,12 @@
 # TODO
 
+
 - plan new features:
-    - (i) information hover dialog for tiles (set in tiles.js and only present if not null)
-    - team sorting by point totals
+    - ~~(i) information hover dialog for tiles (set in tiles.js and only present if not null)~~
+    - standardise team size boxes, widths and heights
     - new sort options (recently obtained tiles | by points |etc ) (asc/desc for all)
+    - discord integration
     - user submitted proofs
-    - recent activity
     - user leaderboards (by tiles claimed/points earned)
+    - recent activity
+    - team sorting by point totals
