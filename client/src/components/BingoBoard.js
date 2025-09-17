@@ -36,11 +36,15 @@ const TeamBox = styled(Box, {
 const BingoTileComponent = ({ tile, readOnly, onToggleClaim }) => (
   <GridItem sx={{ position: 'relative' }}>
     {tile.info && (
-      <Tooltip title={tile.info}>
+      <Tooltip
+        title={tile.info}
+        interactive // allow clicking the tooltip itself
+        enterTouchDelay={0} // tap opens immediately
+      >
         <Box
           component="img"
           src={InfoIcon}
-          alt="info"
+          alt={tile.description}
           sx={{
             position: 'absolute',
             top: 8,
