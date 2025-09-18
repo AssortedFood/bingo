@@ -5,6 +5,7 @@ import { styled } from '@mui/system';
 import { Tooltip } from '@mui/material';
 import InfoIcon from '../assets/icons/info.png';
 import teams from '../data/teams.js';
+import { useRef, createRef } from 'react';
 
 // responsive sizing constants
 const MIN_TILE_WIDTH = 300;
@@ -116,6 +117,23 @@ export default function BingoBoard({
   filters,
   onFilterTeam,
 }) {
+  // 1) Create an array of refs, one per team badge
+  const badgeRefs = useRef(teams.map(() => createRef()));
+
+  // 2) State to hold the “max width” in px
+  const [badgeWidth, setBadgeWidth] = useState(0);
+
+  // 3) After every render where teamPoints or filter labels might change,
+  //    measure all badges and pick the maximum.
+  useEffect(() => {
+    const widths = badgeRefs.current.map((ref) => {
+      const el = ref.current;
+      return el ? el.getBoundingClientRect().width : 0;
+    });
+    const max = Math.ceil(Math.max(...widths, 0));
+    setBadgeWidth(max);
+  }, [teamPoints, filters]);
+
   // responsive tile sizing
   const [tileWidth, setTileWidth] = useState(MIN_TILE_WIDTH);
   useEffect(() => {
@@ -149,6 +167,7 @@ export default function BingoBoard({
         sx={{
           p: 3,
           mb: 3,
+          pr: 6,
           textAlign: 'center',
           bgcolor: 'background.default',
           border: 1,
@@ -170,6 +189,7 @@ export default function BingoBoard({
             return (
               <Box
                 key={team.id}
+                ref={badgeRefs.current[idx]}
                 onClick={() => onFilterTeam(team.id)}
                 sx={{
                   display: 'flex',
@@ -177,8 +197,10 @@ export default function BingoBoard({
                   alignItems: 'center',
                   p: 1,
                   borderRadius: 1,
-                  minWidth: 100,
-                  flex: '0 1 auto',
+                  // minWidth: 100,
+                  // flex: '0 1 auto',
+                  width: badgeWidth ? `${badgeWidth}px` : 'auto',
+                  flex: badgeWidth ? '0 0 auto' : '0 1 auto',
                   cursor: 'pointer',
                   backgroundColor: team.color,
                 }}
