@@ -182,7 +182,7 @@ export default function BingoBoard({
         >
           {teams.map((team, idx) => {
             const mode = filters[team.id] || 0;
-            let label = '';
+            let label = '‎';
             if (mode === 1) label = 'Missing';
             if (mode === 2) label = 'Obtained';
 
