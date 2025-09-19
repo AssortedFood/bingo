@@ -131,7 +131,7 @@ export default function BingoBoard({
       return el ? el.getBoundingClientRect().width : 0;
     });
     const max = Math.ceil(Math.max(...widths, 0));
-    setBadgeWidth(max);
+    setBadgeWidth(max * 0.95);
   }, [teamPoints, filters]);
 
   // responsive tile sizing
@@ -197,18 +197,16 @@ export default function BingoBoard({
                   alignItems: 'center',
                   p: 1,
                   borderRadius: 1,
-                  // minWidth: 100,
-                  // flex: '0 1 auto',
                   width: badgeWidth ? `${badgeWidth}px` : 'auto',
                   flex: badgeWidth ? '0 0 auto' : '0 1 auto',
                   cursor: 'pointer',
                   backgroundColor: team.color,
                 }}
               >
-                <Typography variant="h6" sx={{ mb: 0.5 }}>
+                <Typography variant="subtitle1" sx={{ mb: 0.5 }}>
                   {team.name}
                 </Typography>
-                <Typography variant="body1">Points: {teamPoints[idx]}</Typography>
+                <Typography variant="body2">Points: {teamPoints[idx]}</Typography>
                 {label && (
                   <Typography variant="caption" sx={{ mt: 0.5 }}>
                     {label}
