@@ -21,5 +21,16 @@
       1
     ],
     "lastModified": "2025-09-20T09:21:06.675Z"
+  },
+  {
+    "id": 2,
+    "description": "Corp: Blessed spirit shield",
+    "image": "/images/2.png",
+    "info": "Spirit shield ja Holy elixir",
+    "points": 5,
+    "claimedBy": [
+      1
+    ],
+    "lastModified": "2025-09-20T09:46:10.958Z"
   }
 ]

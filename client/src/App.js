@@ -1,6 +1,6 @@
 // src/App.js
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { Box, IconButton, useMediaQuery, CssBaseline, ThemeProvider } from '@mui/material';
+import { Box, IconButton, useMediaQuery, CssBaseline, ThemeProvider, Tooltip } from '@mui/material';
 import useAppTheme, { getInitialMode } from './theme.js';
 
 import SettingsMenu from './components/SettingsMenu.js';
@@ -277,9 +277,30 @@ export default function App() {
           zIndex: (t) => t.zIndex.appBar,
         }}
       >
-        <IconButton size="small" title={LABEL_MAP[sortMode]} onClick={cycleSort}>
-          <img src={ICON_MAP[sortMode]} alt={LABEL_MAP[sortMode]} width={24} height={24} />
-        </IconButton>
+        <Tooltip
+          title={LABEL_MAP[sortMode]}
+          placement="left" // ← tells the popper to appear on the left
+          arrow // ← optional, gives you the little arrow pointer
+        >
+          <IconButton
+            size="small"
+            onClick={cycleSort}
+            sx={{
+              // emulate the Info‐Icon’s hover “feel”
+              '&:hover': {
+                backgroundColor: theme.palette.action.hover,
+              },
+              '& img': {
+                transition: 'transform 0.1s',
+              },
+              '&:hover img': {
+                transform: 'scale(1.1)',
+              },
+            }}
+          >
+            <img src={ICON_MAP[sortMode]} alt={LABEL_MAP[sortMode]} width={24} height={24} />
+          </IconButton>
+        </Tooltip>
       </Box>
 
       {/* Bingo Grid */}
