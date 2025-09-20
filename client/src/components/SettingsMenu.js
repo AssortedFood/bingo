@@ -7,7 +7,13 @@ import AutoRefreshToggle from './AutoRefreshToggle.js';
 import InstructionsIcon from '../assets/icons/instructions.png';
 import ContactIcon from '../assets/icons/bond.png';
 
-export default function SettingsMenu({ mode, setMode, onRefresh, onInstructions, onContact }) {
+export default function SettingsMenu({
+  themeMode,
+  setThemeMode,
+  onRefresh,
+  onInstructions,
+  onContact,
+}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const openMenu = (e) => setAnchorEl(e.currentTarget);
   const closeMenu = () => setAnchorEl(null);
@@ -28,7 +34,12 @@ export default function SettingsMenu({ mode, setMode, onRefresh, onInstructions,
         disableScrollLock
         PaperProps={{ sx: { minWidth: 180 } }}
       >
-        <DarkLightToggle mode={mode} setMode={setMode} staysOpen={true} toggleClose={closeMenu} />
+        <DarkLightToggle
+          mode={themeMode}
+          setMode={setThemeMode}
+          staysOpen={true}
+          toggleClose={closeMenu}
+        />
 
         <AutoRefreshToggle
           onRefresh={onRefresh}

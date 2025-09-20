@@ -131,7 +131,7 @@ export default function BingoBoard({
       return el ? el.getBoundingClientRect().width : 0;
     });
     const max = Math.ceil(Math.max(...widths, 0));
-    setBadgeWidth(max * 0.95);
+    setBadgeWidth(max);
   }, [teamPoints, filters]);
 
   // responsive tile sizing

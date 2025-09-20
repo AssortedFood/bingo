@@ -1,7 +1,6 @@
 // src/App.js
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { Box, useMediaQuery, CssBaseline, ThemeProvider } from '@mui/material';
-
+import { Box, IconButton, useMediaQuery, CssBaseline, ThemeProvider } from '@mui/material';
 import useAppTheme, { getInitialMode } from './theme.js';
 
 import SettingsMenu from './components/SettingsMenu.js';
@@ -14,39 +13,47 @@ import tileData from './data/tiles.js';
 import BingoTile from './models/BingoTile.js';
 import teams from './data/teams.js';
 
+// 1) your sort constants
+import {
+  SORT_DEFAULT,
+  SORT_POINTS_ASC,
+  SORT_POINTS_DESC,
+  ALL_SORT_MODES,
+} from './constants/sortModes.js';
+
+// 2) the three icons you downloaded
+import DefaultIcon from './assets/icons/sort/default.png';
+import PointsLowIcon from './assets/icons/sort/points_low.png';
+import PointsHighIcon from './assets/icons/sort/points_high.png';
+
 export default function App() {
-  // ─── DIALOGS ────────────────────────────────────────────────────────────────
+  // ─── DIALOG STATES ─────────────────────────────────────────────────────────
   const [showInstructions, setShowInstructions] = useState(false);
   const [showContact, setShowContact] = useState(false);
-
   const openInstructions = () => setShowInstructions(true);
   const closeInstructions = () => setShowInstructions(false);
   const openContact = () => setShowContact(true);
   const closeContact = () => setShowContact(false);
 
   // ─── THEME MODE TOGGLE ──────────────────────────────────────────────────────
-  // seed from localStorage or OS
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-  const [mode, setMode] = useState(() => {
+  const [themeMode, setThemeMode] = useState(() => {
     const init = getInitialMode();
-    // if you want to fall back to OS when stored is missing:
     return init === 'system' ? (prefersDarkMode ? 'dark' : 'light') : init;
   });
-  const theme = useAppTheme(mode);
+  const theme = useAppTheme(themeMode);
 
   // ─── SPOTLIGHT SEARCH ───────────────────────────────────────────────────────
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
   useEffect(() => {
     function handleKeyDown(e) {
-      // let Ctrl+C, ⌘+R, Alt+Tab, etc. pass through:
-      if (e.ctrlKey || e.metaKey || e.altKey) {
-        return;
-      }
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (searchOpen) return;
       const fe = document.activeElement;
-      if (fe && (fe.tagName === 'INPUT' || fe.tagName === 'TEXTAREA' || fe.isContentEditable))
+      if (fe && (fe.tagName === 'INPUT' || fe.tagName === 'TEXTAREA' || fe.isContentEditable)) {
         return;
+      }
       if (/^[a-z0-9]$/i.test(e.key)) {
         setSearchOpen(true);
         setSearchText(e.key);
@@ -56,7 +63,6 @@ export default function App() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [searchOpen]);
-
   useEffect(() => {
     function handleGlobalKeyDown(e) {
       if (e.key === 'Escape') {
@@ -65,16 +71,11 @@ export default function App() {
       }
     }
     window.addEventListener('keydown', handleGlobalKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleGlobalKeyDown);
-    };
-  }, []); // run once on mount
-
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
   useEffect(() => {
     if (!searchOpen) return;
-    const handle = setTimeout(() => {
-      setSearchOpen(false);
-    }, 1500);
+    const handle = setTimeout(() => setSearchOpen(false), 1500);
     return () => clearTimeout(handle);
   }, [searchText, searchOpen]);
 
@@ -89,6 +90,28 @@ export default function App() {
     }));
   }, []);
 
+  // ─── SORT STATE ─────────────────────────────────────────────────────────────
+  const [sortMode, setSortMode] = useState(SORT_DEFAULT);
+
+  // cycle to the next mode when the button is clicked
+  const cycleSort = () => {
+    const idx = ALL_SORT_MODES.indexOf(sortMode);
+    const next = ALL_SORT_MODES[(idx + 1) % ALL_SORT_MODES.length];
+    setSortMode(next);
+  };
+
+  // icon + label maps
+  const ICON_MAP = {
+    [SORT_DEFAULT]: DefaultIcon,
+    [SORT_POINTS_ASC]: PointsLowIcon,
+    [SORT_POINTS_DESC]: PointsHighIcon,
+  };
+  const LABEL_MAP = {
+    [SORT_DEFAULT]: 'Sort: Modified',
+    [SORT_POINTS_ASC]: 'Sort: Points ↑',
+    [SORT_POINTS_DESC]: 'Sort: Points ↓',
+  };
+
   // ─── CLAIMS & TILES ─────────────────────────────────────────────────────────
   const hostname = window.location.hostname;
   const API_URL = hostname.includes('localhost')
@@ -97,10 +120,15 @@ export default function App() {
   const readOnly = hostname === 'bingo.synox.is';
 
   const [tiles, setTiles] = useState([]);
+  // remember the raw claims array order for SORT_DEFAULT
+  const [claimOrder, setClaimOrder] = useState([]);
+
   const loadClaims = useCallback(async () => {
     try {
       const res = await fetch(API_URL);
       const claims = await res.json();
+      setClaimOrder(claims);
+
       const updated = tileData.map((data) => {
         const found = claims.find((c) => c.id === data.id);
         return new BingoTile(
@@ -164,15 +192,45 @@ export default function App() {
     ? visibleTiles.filter((tile) => tile.description.toLowerCase().includes(query))
     : visibleTiles;
 
-  // ─── STATIC POINTS ──────────────────────────────────────────────────────────
+  // ─── SORTING ────────────────────────────────────────────────────────────────
+  const sortedTiles = useMemo(() => {
+    switch (sortMode) {
+      case SORT_POINTS_ASC:
+        return finalTiles
+          .slice()
+          .sort((a, b) => (a.points !== b.points ? a.points - b.points : a.id - b.id));
+
+      case SORT_POINTS_DESC:
+        return finalTiles
+          .slice()
+          .sort((a, b) => (b.points !== a.points ? b.points - a.points : a.id - b.id));
+
+      case SORT_DEFAULT: {
+        // sort by ISO‐timestamp descending (newest first),
+        // fallback to 1970‐01‐01 for missing entries, then tiebreak by id
+        const tsMap = new Map(
+          claimOrder.map((c) => [c.id, c.lastModified ? new Date(c.lastModified).getTime() : 0]),
+        );
+        return finalTiles.slice().sort((a, b) => {
+          const ta = tsMap.get(a.id) || 0;
+          const tb = tsMap.get(b.id) || 0;
+          if (ta !== tb) return tb - ta; // newer first
+          return a.id - b.id; // fallback by id
+        });
+      }
+
+      default:
+        return finalTiles;
+    }
+  }, [finalTiles, sortMode, claimOrder]);
+
+  // ─── STATIC TEAM POINTS ─────────────────────────────────────────────────────
   const teamPoints = useMemo(() => {
     const pts = Array(teams.length).fill(0);
     tiles.forEach((tile) => {
       tile.claimedBy.forEach((id) => {
         const idx = teams.findIndex((t) => t.id === id);
-        if (idx >= 0) {
-          pts[idx] += tile.points;
-        }
+        if (idx >= 0) pts[idx] += tile.points;
       });
     });
     return pts;
@@ -187,9 +245,7 @@ export default function App() {
         open={searchOpen}
         value={searchText}
         onChange={setSearchText}
-        onClose={() => {
-          setSearchOpen(false);
-        }}
+        onClose={() => setSearchOpen(false)}
       />
 
       {/* Settings Menu */}
@@ -202,17 +258,33 @@ export default function App() {
         }}
       >
         <SettingsMenu
-          mode={mode}
-          setMode={setMode}
+          themeMode={themeMode}
+          setThemeMode={setThemeMode}
+          sortMode={sortMode}
+          setSortMode={setSortMode}
           onRefresh={loadClaims}
           onInstructions={openInstructions}
           onContact={openContact}
         />
       </Box>
 
+      {/* directly underneath: Sort icon button */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: (t) => t.spacing(6),
+          right: (t) => t.spacing(1),
+          zIndex: (t) => t.zIndex.appBar,
+        }}
+      >
+        <IconButton size="small" title={LABEL_MAP[sortMode]} onClick={cycleSort}>
+          <img src={ICON_MAP[sortMode]} alt={LABEL_MAP[sortMode]} width={24} height={24} />
+        </IconButton>
+      </Box>
+
       {/* Bingo Grid */}
       <BingoBoard
-        tiles={finalTiles}
+        tiles={sortedTiles}
         teamPoints={teamPoints}
         onToggleClaim={handleToggleClaim}
         readOnly={readOnly}
